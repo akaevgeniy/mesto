@@ -67,8 +67,10 @@
 .profile__text {
   display: flex;
   flex-direction: column;
+  max-width: 336px;
 }
 .profile__name {
+  max-width: 294px;
   margin: 0;
   font-style: normal;
   font-weight: 500;
@@ -76,8 +78,12 @@
   line-height: 48px;
   /* or 114% */
   color: #ffffff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .profile__about {
+  max-width: 100%;
   margin: 16px 0 0;
   font-family: Inter;
   font-style: normal;
@@ -85,6 +91,9 @@
   font-size: 18px;
   line-height: 22px;
   color: #ffffff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .profile__title {
   display: flex;
@@ -94,11 +103,12 @@
   margin-left: 18px;
   background-color: #000000;
   border: 1px solid #ffffff;
+  background: transparent url(./images/profile-edit-button.png) center no-repeat;
   box-sizing: border-box;
   line-height: 0;
   font-size: 0;
-  width: 24px;
-  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
   padding: 0;
   transition: opacity 0.7s linear;
   cursor: pointer;
@@ -107,8 +117,11 @@
   opacity: 0.6;
 }
 .profile__add-button {
-  padding: 14px 64px;
+  width: 118px;
+  height: 50px;
+  padding: 0;
   border: 2px solid #ffffff;
+  background: transparent url(./images/profile-add-button.png) center no-repeat;
   box-sizing: border-box;
   border-radius: 2px;
   background-color: #000000;
@@ -150,17 +163,24 @@
   justify-content: space-between;
 }
 .element__like {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   background: url(./images/element-like.svg) center no-repeat;
   background-size: 100%;
   cursor: pointer;
-  height: 19px;
-  width: 22px;
+  min-height: 19px;
+  min-width: 22px;
   padding: 0;
   transition: opacity 0.5s linear;
+  margin-left: 15px;
 }
 .element__like:hover {
   opacity: 0.5;
+}
+.element__like:active {
+  background: url(./images/element-like-active.svg);
 }
 .element__title {
   margin: 0;
@@ -169,6 +189,9 @@
   font-size: 24px;
   line-height: 29px;
   color: #000000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .footer {
   margin: 66px auto 0;
@@ -245,8 +268,8 @@
   font-size: 14px;
   line-height: 17px;
   color: #000000;
-  /* opacity: 0.2; */
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   max-width: 328px;
   width: 100%;
 }
@@ -259,8 +282,8 @@
   font-size: 14px;
   line-height: 17px;
   color: #000000;
-  /* opacity: 0.2; */
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   max-width: 328px;
   width: 100%;
 }
@@ -280,6 +303,10 @@
   padding: 0;
   height: 50px;
   cursor: pointer;
+  transition: opacity 0.5s linear;
+}
+.popup__submit:hover {
+  opacity: 0.8;
 }
 @media screen and (max-width: 1005px) {
   .header {
@@ -293,13 +320,13 @@
   .profile__info {
     width: 100%;
   }
+  .profile__text {
+    max-width: 320px;
+  }
   .profile__name {
     font-size: 36px;
     line-height: 114%;
-  }
-  .profile__add-button {
-    padding-left: 57px;
-    padding-right: 57px;
+    max-width: 270px;
   }
   .elements {
     max-width: calc((100% - 120px));
@@ -336,7 +363,7 @@
   .profile__text {
     margin-top: 26px;
     align-items: center;
-    width: 100%;
+    max-width: 100%;
   }
   .profile__add-button {
     margin-top: 38px;
@@ -350,6 +377,42 @@
   .footer {
     max-width: calc((100% - 100px));
     width: 100%;
+  }
+  .popup__container {
+    max-width: 282px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  .popup__close {
+    width: 20px;
+    height: 20px;
+    top: -36px;
+    right: 0px;
+  }
+  .popup__title {
+    font-size: 18px;
+    line-height: 22px;
+    max-width: 238px;
+    width: 100%;
+    margin: 0 auto 75px;
+  }
+  .popup__name {
+    height: 27px;
+    max-width: 238px;
+    width: 100%;
+  }
+  .popup__about {
+    height: 27px;
+    margin-bottom: 45px;
+    max-width: 238px;
+    width: 100%;
+  }
+  .popup__submit {
+    font-size: 14px;
+    line-height: 17px;
+    max-width: 238px;
+    width: 100%;
+    height: 46px;
   }
 }
 @media screen and (max-width: 424px) {
@@ -367,6 +430,9 @@
     margin-top: 42px;
     max-width: calc((100% - 38px));
   }
+  .profile__title {
+    max-width: 282px;
+  }
   .profile__name {
     font-size: 27px;
     line-height: 33px;
@@ -379,13 +445,9 @@
     text-align: center;
   }
   .profile__edit-button {
-    width: 18px;
-    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
     margin-left: 10px;
-  }
-  .profile__edit-img {
-    width: 7.5px;
-    height: 7.5px;
   }
   .elements {
     max-width: calc((100% - 38px));
