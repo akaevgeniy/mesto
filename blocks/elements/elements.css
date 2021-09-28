@@ -8,3 +8,23 @@
   justify-items: center;
   justify-content: center;
 }
+@media screen and (max-width: 1005px) {
+  .elements {
+    max-width: calc((100% - 120px));
+    width: 100%;
+    column-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
+  }
+}
+@media screen and (max-width: 767px) {
+  .elements {
+    max-width: calc((100% - 100px));
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    column-gap: 17px;
+  }
+}
+@media screen and (max-width: 424px) {
+  .elements {
+    max-width: calc((100% - 38px));
+  }
+}

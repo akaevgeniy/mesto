@@ -5,3 +5,20 @@
   display: flex;
   justify-content: flex-start;
 }
+@media screen and (max-width: 1005px) {
+  .footer {
+    max-width: calc((100% - 120px));
+    width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .footer {
+    max-width: calc((100% - 100px));
+    width: 100%;
+  }
+}
+@media screen and (max-width: 424px) {
+  .footer {
+    max-width: calc((100% - 38px));
+  }
+}

@@ -3,3 +3,15 @@
   flex-direction: column;
   max-width: 336px;
 }
+@media screen and (max-width: 1005px) {
+  .profile__text {
+    max-width: 320px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .profile__text {
+    margin-top: 26px;
+    align-items: center;
+    max-width: 100%;
+  }
+}

@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   border: none;
-  background: url(./images/element-like.svg) center no-repeat;
+  background: url(../../../images/element-like.svg) center no-repeat;
   background-size: 100%;
   cursor: pointer;
   min-height: 19px;
@@ -16,5 +16,5 @@
   opacity: 0.5;
 }
 .element__like:active {
-  background: url(./images/element-like-active.svg);
+  background: url(../../../images/element-like-active.svg);
 }

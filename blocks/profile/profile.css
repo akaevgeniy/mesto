@@ -6,3 +6,21 @@
   justify-content: space-between;
   align-items: center;
 }
+@media screen and (max-width: 1005px) {
+  .profile {
+    max-width: calc((100% - 120px));
+    width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .profile {
+    max-width: calc((100% - 100px));
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 424px) {
+  .profile {
+    margin-top: 42px;
+    max-width: calc((100% - 38px));
+  }
+}

@@ -7,3 +7,9 @@
   padding-bottom: 31px;
   justify-content: space-between;
 }
+@media screen and (max-width: 1005px) {
+  .element__text {
+    max-width: calc((100% - 36px));
+    width: 100%;
+  }
+}

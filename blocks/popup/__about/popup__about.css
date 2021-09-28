@@ -12,3 +12,11 @@
   max-width: 328px;
   width: 100%;
 }
+@media screen and (max-width: 767px) {
+  .popup__about {
+    height: 27px;
+    margin-bottom: 45px;
+    max-width: 238px;
+    width: 100%;
+  }
+}
