@@ -6,20 +6,19 @@ let nameInput = formPopup.querySelector(".popup__name");
 let aboutInput = formPopup.querySelector(".popup__about");
 let namePage = document.querySelector(".profile__name");
 let aboutPage = document.querySelector(".profile__about");
+nameInput.value = namePage.textContent;
+aboutInput.value = aboutPage.textContent;
 
 function toggleEditForm() {
   editForm.classList.toggle("popup_is-opened");
 }
-
-nameInput.value = namePage.textContent;
-aboutInput.value = aboutPage.textContent;
+editButtonActive.addEventListener("click", toggleEditForm);
+editFormClose.addEventListener("click", toggleEditForm);
 
 function formSubmitHandler(evt) {
   evt.preventDefault();
   namePage.textContent = nameInput.value;
   aboutPage.textContent = aboutInput.value;
-  toggleEditForm();
+  //   toggleEditForm();
 }
-editButtonActive.addEventListener("click", toggleEditForm);
-editFormClose.addEventListener("click", toggleEditForm);
 formPopup.addEventListener("submit", formSubmitHandler);

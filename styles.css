@@ -1,37 +1,3 @@
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("./fonts/Inter-Regular.woff2") format("woff2"), url("./fonts/Inter-Regular.woff") format("woff");
-}
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url("./fonts/Inter-Black.woff2") format("woff2"), url("./fonts/Inter-Black.woff") format("woff");
-}
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("./fonts/Inter-Bold.woff2") format("woff2"), url("./fonts/Inter-Bold.woff") format("woff");
-}
-.page {
-  background-color: #000000;
-  max-width: 100vw;
-  min-width: 320px;
-  margin: auto;
-  font-family: "Inter", "Arial", sans-serif;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility;
-}
 .header {
   display: flex;
   flex-direction: column;
@@ -386,6 +352,7 @@
   .popup__close {
     width: 20px;
     height: 20px;
+    background-size: 100%;
     top: -36px;
     right: 0px;
   }
