@@ -25,6 +25,7 @@
 }
 @media screen and (max-width: 424px) {
   .elements {
+    margin-top: 36px;
     max-width: calc((100% - 38px));
   }
 }

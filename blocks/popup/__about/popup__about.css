@@ -1,7 +1,7 @@
 .popup__about {
   height: 25px;
   padding: 0;
-  margin: 0 auto 48px;
+  margin: 0 auto 52px;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -9,7 +9,7 @@
   color: #000000;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  max-width: 328px;
+  max-width: 356px;
   width: 100%;
 }
 @media screen and (max-width: 767px) {
