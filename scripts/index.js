@@ -21,4 +21,5 @@ function formSubmitHandler(evt) {
   aboutPage.textContent = aboutInput.value;
   editForm.classList.remove('popup_is-opened');
 }
+
 formPopup.addEventListener('submit', formSubmitHandler);
