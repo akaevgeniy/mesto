@@ -1,0 +1,15 @@
+.popup__form {
+  display: flex;
+  flex-direction: column;
+}
+.popup__form :nth-child(2) {
+  margin-bottom: 30px;
+}
+.popup__form :nth-child(3) {
+  margin-bottom: 52px;
+}
+@media screen and (max-width: 767px) {
+  .popup__form :nth-child(3) {
+    margin-bottom: 45px;
+  }
+}
