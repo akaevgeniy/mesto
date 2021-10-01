@@ -19,12 +19,12 @@
             <div class="profile__text">
               <div class="profile__title">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <button class="profile__edit-button" type="button"></button>
+                <button class="profile__edit-button" type="button" aria-label="Редактировать"></button>
               </div>
               <p class="profile__about">Исследователь океана</p>
             </div>
           </div>
-          <button class="profile__add-button" type="button"></button>
+          <button class="profile__add-button" type="button" aria-label="Добавить"></button>
         </section>
         <section aria-label="label" class="elements">
           <article class="element">
@@ -76,11 +76,11 @@
       </footer>
       <div class="popup">
         <div class="popup__container">
-          <button class="popup__close" type="reset"></button>
-          <form class="popup__form" name="popup__form">
+          <button class="popup__close" type="button" aria-label="Закрыть окно"></button>
+          <form class="popup__edit-form" name="popup__edit-form">
             <h2 class="popup__title">Редактировать профиль</h2>
-            <input class="popup__input popup__input_is_name" name="popup__input_is_name" />
-            <input class="popup__input popup__input_is_about" name="popup__input_is_about" />
+            <input class="popup__input popup__input_is_name" name="popup__input_is_name" type="text" />
+            <input class="popup__input popup__input_is_about" name="popup__input_is_about" type="text" />
             <input type="submit" class="popup__submit" value="Сохранить" />
           </form>
         </div>
