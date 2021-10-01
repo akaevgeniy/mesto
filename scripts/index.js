@@ -9,13 +9,13 @@ let namePage = document.querySelector('.profile__name');
 let aboutPage = document.querySelector('.profile__about');
 // Функция для открытия модального окна, добавляем попапу класс,
 // при открытии окна данные со страницы записываюся в инпуты формы
-function addEditForm() {
+function addPopup() {
   layerPopup.classList.add('popup_is-opened');
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
 }
 // Функция для закрытия модального окна, удаляем у попапа класс
-function removeEditForm() {
+function removePopup() {
   layerPopup.classList.remove('popup_is-opened');
 }
 // Переопределяем submit для перезаписывания полей из инпутов на страницу
@@ -23,9 +23,9 @@ function formSubmitHandler(evt) {
   evt.preventDefault();
   namePage.textContent = nameInput.value;
   aboutPage.textContent = aboutInput.value;
-  removeEditForm();
+  removePopup();
 }
 // Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных
-editButtonActive.addEventListener('click', addEditForm);
-popupCloseButton.addEventListener('click', removeEditForm);
+editButtonActive.addEventListener('click', addPopup);
+popupCloseButton.addEventListener('click', removePopup);
 formPopup.addEventListener('submit', formSubmitHandler);
