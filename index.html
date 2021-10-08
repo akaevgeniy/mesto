@@ -28,6 +28,7 @@
         </section>
         <section aria-label="label" class="elements">
           <article class="element">
+            <button class="element__delete" type="button"></button>
             <img src="./images/element-bermamit.jpg" alt="Плато Бермамыт" class="element__photo" />
             <div class="element__text">
               <h2 class="element__title">Плато Бермамыт</h2>
@@ -35,6 +36,7 @@
             </div>
           </article>
           <article class="element">
+            <button class="element__delete" type="button"></button>
             <img src="./images/element-dzhily-su.jpg" alt="Джилы-Су" class="element__photo" />
             <div class="element__text">
               <h2 class="element__title">Джилы-Су</h2>
@@ -42,6 +44,7 @@
             </div>
           </article>
           <article class="element">
+            <button class="element__delete" type="button"></button>
             <img src="./images/element-kabardino.jpg" alt="Кабардино-Балкария" class="element__photo" />
             <div class="element__text">
               <h2 class="element__title">Кабардино-Балкария</h2>
@@ -49,6 +52,7 @@
             </div>
           </article>
           <article class="element">
+            <button class="element__delete" type="button"></button>
             <img src="./images/element-karachayevo1.jpg" alt="Карачаево-Черкесия" class="element__photo" />
             <div class="element__text">
               <h2 class="element__title">Карачаево-Черкесия</h2>
@@ -56,6 +60,7 @@
             </div>
           </article>
           <article class="element">
+            <button class="element__delete" type="button"></button>
             <img src="./images/element-pyatigorsk.jpg" alt="Пятигорск" class="element__photo" />
             <div class="element__text">
               <h2 class="element__title">Пятигорск</h2>
@@ -63,6 +68,7 @@
             </div>
           </article>
           <article class="element">
+            <button class="element__delete" type="button"></button>
             <img src="./images/element-karachayevo2.jpg" alt="Карачаево-Черкесия" class="element__photo" />
             <div class="element__text">
               <h2 class="element__title">Карачаево-Черкесия</h2>
@@ -82,6 +88,18 @@
             <input class="popup__input popup__input_is_name" name="popup__input_is_name" type="text" placeholder="Имя" required />
             <input class="popup__input popup__input_is_about" name="popup__input_is_about" type="text" placeholder="О себе" required />
             <input type="submit" class="popup__submit" value="Сохранить" />
+          </form>
+          <form class="popup__form" name="popup__add-form">
+            <h2 class="popup__title">Новое место</h2>
+            <input class="popup__input popup__input_is_add-name" name="popup__input_is_add-name" type="text" placeholder="Название" required />
+            <input
+              class="popup__input popup__input_is_add-link"
+              name="popup__input_is_add-link"
+              type="text"
+              placeholder="Ссылка на картинку"
+              required
+            />
+            <input type="submit" class="popup__submit" value="Создать" />
           </form>
         </div>
       </div>

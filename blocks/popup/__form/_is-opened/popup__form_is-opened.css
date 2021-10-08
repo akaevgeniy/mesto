@@ -1,0 +1,4 @@
+.popup__form_is-opened {
+  display: flex;
+  flex-direction: column;
+}
