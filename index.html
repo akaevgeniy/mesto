@@ -26,56 +26,7 @@
           </div>
           <button class="profile__add-button" type="button" aria-label="Добавить"></button>
         </section>
-        <section aria-label="label" class="elements">
-          <article class="element">
-            <button class="element__delete" type="button"></button>
-            <img src="./images/element-bermamit.jpg" alt="Плато Бермамыт" class="element__photo" />
-            <div class="element__text">
-              <h2 class="element__title">Плато Бермамыт</h2>
-              <button class="element__like" type="button"></button>
-            </div>
-          </article>
-          <article class="element">
-            <button class="element__delete" type="button"></button>
-            <img src="./images/element-dzhily-su.jpg" alt="Джилы-Су" class="element__photo" />
-            <div class="element__text">
-              <h2 class="element__title">Джилы-Су</h2>
-              <button class="element__like" type="button"></button>
-            </div>
-          </article>
-          <article class="element">
-            <button class="element__delete" type="button"></button>
-            <img src="./images/element-kabardino.jpg" alt="Кабардино-Балкария" class="element__photo" />
-            <div class="element__text">
-              <h2 class="element__title">Кабардино-Балкария</h2>
-              <button class="element__like" type="button"></button>
-            </div>
-          </article>
-          <article class="element">
-            <button class="element__delete" type="button"></button>
-            <img src="./images/element-karachayevo1.jpg" alt="Карачаево-Черкесия" class="element__photo" />
-            <div class="element__text">
-              <h2 class="element__title">Карачаево-Черкесия</h2>
-              <button class="element__like" type="button"></button>
-            </div>
-          </article>
-          <article class="element">
-            <button class="element__delete" type="button"></button>
-            <img src="./images/element-pyatigorsk.jpg" alt="Пятигорск" class="element__photo" />
-            <div class="element__text">
-              <h2 class="element__title">Пятигорск</h2>
-              <button class="element__like" type="button"></button>
-            </div>
-          </article>
-          <article class="element">
-            <button class="element__delete" type="button"></button>
-            <img src="./images/element-karachayevo2.jpg" alt="Карачаево-Черкесия" class="element__photo" />
-            <div class="element__text">
-              <h2 class="element__title">Карачаево-Черкесия</h2>
-              <button class="element__like" type="button"></button>
-            </div>
-          </article>
-        </section>
+        <section aria-label="label" class="elements"></section>
       </main>
       <footer class="footer">
         <p class="footer__text">&copy; 2021 Mesto Russia</p>
@@ -104,6 +55,16 @@
         </div>
       </div>
     </div>
+    <template class="element-template">
+      <article class="element">
+        <button class="element__delete" type="button"></button>
+        <img src="" alt="Плато Бермамыт" class="element__photo" />
+        <div class="element__text">
+          <h2 class="element__title"></h2>
+          <button class="element__like" type="button"></button>
+        </div>
+      </article>
+    </template>
     <script src="./scripts/index.js"></script>
   </body>
 </html>
