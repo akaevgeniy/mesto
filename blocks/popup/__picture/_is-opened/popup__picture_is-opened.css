@@ -1,0 +1,4 @@
+.popup__picture_is-opened {
+  display: flex;
+  flex-direction: column;
+}

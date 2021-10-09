@@ -43,13 +43,35 @@ const renderElement = (taskName) => {
   const sectionElement = elementTemplate.cloneNode(true);
   const sectionElementTitle = sectionElement.querySelector('.element__title');
   const sectionElementPhoto = sectionElement.querySelector('.element__photo');
+  const elementLikeButton = sectionElement.querySelector('.element__like');
   sectionElementPhoto.src = taskName.link;
   sectionElementPhoto.alt = taskName.name;
   sectionElementTitle.textContent = taskName.name;
+  elementLikeButton.addEventListener('click', (evt) => {
+    evt.target.classList.toggle('element__like_active');
+  });
+
+  const elementDeleteBtn = sectionElement.querySelector('.element__delete');
+  elementDeleteBtn.addEventListener('click', (event) => {
+    event.target.closest('.element').remove();
+  });
+  sectionElementPhoto.addEventListener('click', (ev) => {
+    const layoutPhoto = document.querySelector('.popup__picture');
+    const zoomPhoto = layoutPhoto.querySelector('.popup__photo');
+    const zoomPhotoCaption = layoutPhoto.querySelector('.popup__caption');
+    const popupContainer = document.querySelector('.popup__container');
+    zoomPhoto.src = ev.target.src;
+    zoomPhoto.alt = ev.target.alt;
+    zoomPhotoCaption.textContent = ev.target.alt;
+    layerPopup.classList.add('popup_is-opened');
+    layoutPhoto.classList.add('popup__picture_is-opened');
+    popupContainer.classList.add('popup__container_pic-zoom');
+  });
   elementContainer.append(sectionElement);
 };
 
 initialCards.forEach(renderElement);
+
 // Функция для открытия модального окна, добавляем попапу класс,
 // при открытии окна данные со страницы записываюся в инпуты формы
 function addPopup(index) {
@@ -63,6 +85,8 @@ function removePopup() {
   layerPopup.classList.remove('popup_is-opened');
   formPopups[0].classList.remove('popup__form_is-opened');
   formPopups[1].classList.remove('popup__form_is-opened');
+  document.querySelector('.popup__picture').classList.remove('popup__picture_is-opened');
+  document.querySelector('.popup__container').classList.remove('popup__container_pic-zoom');
 }
 // Переопределяем submit для перезаписывания полей из инпутов на страницу
 function formSubmitHandler(evt) {
@@ -71,6 +95,7 @@ function formSubmitHandler(evt) {
   aboutPage.textContent = aboutInput.value;
   removePopup();
 }
+
 // Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных
 editButtonActive.addEventListener('click', () => addPopup(0));
 addButtonActive.addEventListener('click', () => addPopup(1));
