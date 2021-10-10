@@ -24,6 +24,7 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
   },
 ];
+
 // Находим в DOM попап, форму, инпуты и кнопки редактирования, закрытия формы
 const elementContainer = document.querySelector('.elements');
 const elementTemplate = document.querySelector('.element-template').content;
@@ -95,9 +96,23 @@ function formSubmitHandler(evt) {
   aboutPage.textContent = aboutInput.value;
   removePopup();
 }
+// Функция добавления нового места в контейнер
+const addElement = (event) => {
+  event.preventDefault();
+  const taskName = {
+    name: nameAddInput.value,
+    link: linkAddInput.value,
+  };
 
+  renderElement(taskName);
+  nameAddInput.value = '';
+  linkAddInput.value = '';
+
+  removePopup();
+};
 // Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных
 editButtonActive.addEventListener('click', () => addPopup(0));
 addButtonActive.addEventListener('click', () => addPopup(1));
 popupCloseButton.addEventListener('click', removePopup);
 formPopups[0].addEventListener('submit', formSubmitHandler);
+formPopups[1].addEventListener('submit', addElement);
