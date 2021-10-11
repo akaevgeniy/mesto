@@ -1,3 +1,4 @@
+//В массив добавляем 6 карточек с местами и ссылками на фото
 const initialCards = [
   {
     name: 'Архыз',
@@ -24,8 +25,7 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
   },
 ];
-
-// Находим в DOM попап, форму, инпуты и кнопки редактирования, закрытия формы
+// Находим в DOM попап, формы, инпуты и кнопки редактирования, добавления новой карточки, закрытия формы
 const elementContainer = document.querySelector('.elements');
 const elementTemplate = document.querySelector('.element-template').content;
 const layerPopup = document.querySelector('.popup');
@@ -39,7 +39,7 @@ let nameAddInput = formPopups[1].querySelector('.popup__input_is_add-name');
 let linkAddInput = formPopups[1].querySelector('.popup__input_is_add-link');
 let namePage = document.querySelector('.profile__name');
 let aboutPage = document.querySelector('.profile__about');
-
+// Функция добавления новой карточки
 const renderElement = (taskName) => {
   const sectionElement = elementTemplate.cloneNode(true);
   const sectionElementTitle = sectionElement.querySelector('.element__title');
@@ -48,14 +48,16 @@ const renderElement = (taskName) => {
   sectionElementPhoto.src = taskName.link;
   sectionElementPhoto.alt = taskName.name;
   sectionElementTitle.textContent = taskName.name;
+  // Вешаем функцию на событие нажатия по кнопке лайка
   elementLikeButton.addEventListener('click', (evt) => {
     evt.target.classList.toggle('element__like_active');
   });
-
+  // Находим в ДОМ и вешаем функцию на событие нажатия по кнопке удаления карточки
   const elementDeleteBtn = sectionElement.querySelector('.element__delete');
   elementDeleteBtn.addEventListener('click', (event) => {
     event.target.closest('.element').remove();
   });
+  // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
   sectionElementPhoto.addEventListener('click', (ev) => {
     const layoutPhoto = document.querySelector('.popup__picture');
     const zoomPhoto = layoutPhoto.querySelector('.popup__photo');
@@ -68,11 +70,11 @@ const renderElement = (taskName) => {
     layoutPhoto.classList.add('popup__picture_is-opened');
     popupContainer.classList.add('popup__container_pic-zoom');
   });
+  // Добавление карточек в контейнер elements
   elementContainer.append(sectionElement);
 };
-
+// Перебираем массив с карточками, добавляя в колбэк функцию добавления новой карточки
 initialCards.forEach(renderElement);
-
 // Функция для открытия модального окна, добавляем попапу класс,
 // при открытии окна данные со страницы записываюся в инпуты формы
 function addPopup(index) {
@@ -81,7 +83,7 @@ function addPopup(index) {
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
 }
-// Функция для закрытия модального окна, удаляем у попапа класс
+// Функция для закрытия модального окна, удаляем у попапа и форм классы
 function removePopup() {
   layerPopup.classList.remove('popup_is-opened');
   formPopups[0].classList.remove('popup__form_is-opened');
@@ -96,7 +98,7 @@ function formSubmitHandler(evt) {
   aboutPage.textContent = aboutInput.value;
   removePopup();
 }
-// Функция добавления нового места в контейнер
+// Функция добавления новой карточки в контейнер
 const addElement = (event) => {
   event.preventDefault();
   const taskName = {
@@ -110,7 +112,7 @@ const addElement = (event) => {
 
   removePopup();
 };
-// Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных
+// Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных, добавления нового места
 editButtonActive.addEventListener('click', () => addPopup(0));
 addButtonActive.addEventListener('click', () => addPopup(1));
 popupCloseButton.addEventListener('click', removePopup);
