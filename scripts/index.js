@@ -71,9 +71,10 @@ const renderElement = (taskName) => {
     popupContainer.classList.add('popup__container_pic-zoom');
   });
   // Добавление карточек в контейнер elements
-  elementContainer.append(sectionElement);
+  elementContainer.prepend(sectionElement);
 };
-// Перебираем массив с карточками, добавляя в колбэк функцию добавления новой карточки
+// Перебираем массив с карточками, в качестве колбэка функция добавления новой карточки
+initialCards.reverse();
 initialCards.forEach(renderElement);
 // Функция для открытия модального окна, добавляем попапу класс,
 // при открытии окна данные со страницы записываюся в инпуты формы
@@ -105,14 +106,12 @@ const addElement = (event) => {
     name: nameAddInput.value,
     link: linkAddInput.value,
   };
-
   renderElement(taskName);
   nameAddInput.value = '';
   linkAddInput.value = '';
-
   removePopup();
 };
-// Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных, добавления нового места
+// Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных, добавления новой карточки
 editButtonActive.addEventListener('click', () => addPopup(0));
 addButtonActive.addEventListener('click', () => addPopup(1));
 popupCloseButton.addEventListener('click', removePopup);
