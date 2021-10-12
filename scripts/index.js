@@ -70,10 +70,10 @@ const renderElement = (taskName) => {
     layoutPhoto.classList.add('popup__picture_is-opened');
     popupContainer.classList.add('popup__container_pic-zoom');
   });
-  // Добавление карточек в контейнер elements
+  // Добавление карточек в контейнер elements (дальнейшее добаление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
   elementContainer.prepend(sectionElement);
 };
-// Перебираем массив с карточками, в качестве колбэка функция добавления новой карточки
+// Перебираем реверсированный массив с карточками, в качестве колбэка функция добавления новой карточки
 initialCards.reverse();
 initialCards.forEach(renderElement);
 // Функция для открытия модального окна, добавляем попапу класс,
@@ -106,7 +106,9 @@ const addElement = (event) => {
     name: nameAddInput.value,
     link: linkAddInput.value,
   };
+  //Вызов функции добавления элементов в контейнер
   renderElement(taskName);
+  //Очищаем поля ввода
   nameAddInput.value = '';
   linkAddInput.value = '';
   removePopup();
