@@ -44,8 +44,8 @@ const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
-// Функция добавления новой карточки
-const renderElement = (taskName) => {
+// Функция создания новой карточки
+const createCard = (taskName) => {
   const sectionElement = elementTemplate.cloneNode(true);
   const sectionElementTitle = sectionElement.querySelector('.element__title');
   const sectionElementPhoto = sectionElement.querySelector('.element__photo');
@@ -72,33 +72,36 @@ const renderElement = (taskName) => {
     zoomPhotoCaption.textContent = ev.target.alt;
     openPopup(imageForm);
   });
-  // Добавление карточек в контейнер elements (дальнейшее добаление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
-  elementContainer.prepend(sectionElement);
+  return sectionElement;
+};
+// Функция добавления карточек в контейнер elements (дальнейшее добаление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
+const renderElement = (elem) => {
+  elementContainer.prepend(createCard(elem));
 };
 // Перебираем реверсированный массив с карточками, в качестве колбэка функция добавления новой карточки
 initialCards.reverse();
 initialCards.forEach(renderElement);
 // Функция для открытия модального окна, добавляем попапу класс
-function openPopup(popup) {
+const openPopup = (popup) => {
   popup.classList.add('popup_is-opened');
-}
+};
 // Функция для закрытия модального окна, удаляем у попапа класс
-function closePopup(popup) {
+const closePopup = (popup) => {
   popup.classList.remove('popup_is-opened');
-}
+};
 // Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
-function openProfileForm() {
+const openProfileForm = () => {
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
   openPopup(editPopup);
-}
+};
 // Функция редактирования профиля, переопределяем submit для перезаписывания полей из инпутов на страницу
-function submitProfileForm(evt) {
+const submitProfileForm = (evt) => {
   evt.preventDefault();
   namePage.textContent = nameInput.value;
   aboutPage.textContent = aboutInput.value;
   closePopup(editPopup);
-}
+};
 // Функция добавления новой карточки в контейнер
 const addElement = (event) => {
   event.preventDefault();
