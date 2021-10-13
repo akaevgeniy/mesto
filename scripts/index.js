@@ -28,17 +28,22 @@ const initialCards = [
 // Находим в DOM попап, формы, инпуты и кнопки редактирования, добавления новой карточки, закрытия формы
 const elementContainer = document.querySelector('.elements');
 const elementTemplate = document.querySelector('.element-template').content;
-const layerPopup = document.querySelector('.popup');
-const popupCloseButton = layerPopup.querySelector('.popup__close');
 const editButtonActive = document.querySelector('.profile__edit-button');
 const addButtonActive = document.querySelector('.profile__add-button');
-const formPopups = document.querySelectorAll('.popup__form');
-let nameInput = formPopups[0].querySelector('.popup__input_is_name');
-let aboutInput = formPopups[0].querySelector('.popup__input_is_about');
-let nameAddInput = formPopups[1].querySelector('.popup__input_is_add-name');
-let linkAddInput = formPopups[1].querySelector('.popup__input_is_add-link');
-let namePage = document.querySelector('.profile__name');
-let aboutPage = document.querySelector('.profile__about');
+const editPopup = document.querySelector('.popup_form_edit');
+const editPopupCloseButton = editPopup.querySelector('.popup__close');
+const editForm = document.querySelector('.popup__form_edit-form');
+const nameInput = editForm.querySelector('.popup__input_is_name');
+const aboutInput = editForm.querySelector('.popup__input_is_about');
+const addPopup = document.querySelector('.popup_form_add-element');
+const addPopupCloseButton = addPopup.querySelector('.popup__close');
+const addForm = document.querySelector('.popup__form_add-form');
+const nameAddInput = addForm.querySelector('.popup__input_is_add-name');
+const linkAddInput = addForm.querySelector('.popup__input_is_add-link');
+const imageForm = document.querySelector('.popup_form_image');
+const imagePopupCloseButton = imageForm.querySelector('.popup__close');
+const namePage = document.querySelector('.profile__name');
+const aboutPage = document.querySelector('.profile__about');
 // Функция добавления новой карточки
 const renderElement = (taskName) => {
   const sectionElement = elementTemplate.cloneNode(true);
@@ -62,13 +67,10 @@ const renderElement = (taskName) => {
     const layoutPhoto = document.querySelector('.popup__picture');
     const zoomPhoto = layoutPhoto.querySelector('.popup__photo');
     const zoomPhotoCaption = layoutPhoto.querySelector('.popup__caption');
-    const popupContainer = document.querySelector('.popup__container');
     zoomPhoto.src = ev.target.src;
     zoomPhoto.alt = ev.target.alt;
     zoomPhotoCaption.textContent = ev.target.alt;
-    layerPopup.classList.add('popup_is-opened');
-    layoutPhoto.classList.add('popup__picture_is-opened');
-    popupContainer.classList.add('popup__container_pic-zoom');
+    openPopup(imageForm);
   });
   // Добавление карточек в контейнер elements (дальнейшее добаление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
   elementContainer.prepend(sectionElement);
@@ -78,26 +80,24 @@ initialCards.reverse();
 initialCards.forEach(renderElement);
 // Функция для открытия модального окна, добавляем попапу класс,
 // при открытии окна данные со страницы записываюся в инпуты формы
-function addPopup(index) {
-  layerPopup.classList.add('popup_is-opened');
-  formPopups[index].classList.add('popup__form_is-opened');
-  nameInput.value = namePage.textContent;
-  aboutInput.value = aboutPage.textContent;
+function openPopup(popup) {
+  popup.classList.add('popup_is-opened');
 }
 // Функция для закрытия модального окна, удаляем у попапа и форм классы
-function removePopup() {
-  layerPopup.classList.remove('popup_is-opened');
-  formPopups[0].classList.remove('popup__form_is-opened');
-  formPopups[1].classList.remove('popup__form_is-opened');
-  document.querySelector('.popup__picture').classList.remove('popup__picture_is-opened');
-  document.querySelector('.popup__container').classList.remove('popup__container_pic-zoom');
+function closePopup(popup) {
+  popup.classList.remove('popup_is-opened');
+}
+function openProfileForm() {
+  nameInput.value = namePage.textContent;
+  aboutInput.value = aboutPage.textContent;
+  openPopup(editPopup);
 }
 // Переопределяем submit для перезаписывания полей из инпутов на страницу
-function formSubmitHandler(evt) {
+function submitProfileForm(evt) {
   evt.preventDefault();
   namePage.textContent = nameInput.value;
   aboutPage.textContent = aboutInput.value;
-  removePopup();
+  closePopup(editPopup);
 }
 // Функция добавления новой карточки в контейнер
 const addElement = (event) => {
@@ -111,11 +111,13 @@ const addElement = (event) => {
   //Очищаем поля ввода
   nameAddInput.value = '';
   linkAddInput.value = '';
-  removePopup();
+  closePopup(addPopup);
 };
 // Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных, добавления новой карточки
-editButtonActive.addEventListener('click', () => addPopup(0));
-addButtonActive.addEventListener('click', () => addPopup(1));
-popupCloseButton.addEventListener('click', removePopup);
-formPopups[0].addEventListener('submit', formSubmitHandler);
-formPopups[1].addEventListener('submit', addElement);
+editButtonActive.addEventListener('click', openProfileForm);
+addButtonActive.addEventListener('click', () => openPopup(addPopup));
+editPopupCloseButton.addEventListener('click', () => closePopup(editPopup));
+addPopupCloseButton.addEventListener('click', () => closePopup(addPopup));
+imagePopupCloseButton.addEventListener('click', () => closePopup(imageForm));
+editForm.addEventListener('submit', submitProfileForm);
+addForm.addEventListener('submit', addElement);

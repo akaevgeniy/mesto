@@ -31,16 +31,21 @@
       <footer class="footer">
         <p class="footer__text">&copy; 2021 Mesto Russia</p>
       </footer>
-      <div class="popup">
+      <div class="popup popup_form_edit">
         <div class="popup__container">
           <button class="popup__close" type="button" aria-label="Закрыть окно"></button>
-          <form class="popup__form" name="popup__edit-form">
+          <form class="popup__form popup__form_edit-form" name="popup__edit-form">
             <h2 class="popup__title">Редактировать профиль</h2>
             <input class="popup__input popup__input_is_name" name="popup__input_is_name" type="text" placeholder="Имя" required />
             <input class="popup__input popup__input_is_about" name="popup__input_is_about" type="text" placeholder="О себе" required />
             <input type="submit" class="popup__submit" value="Сохранить" />
           </form>
-          <form class="popup__form" name="popup__add-form">
+        </div>
+      </div>
+      <div class="popup popup_form_add-element">
+        <div class="popup__container">
+          <button class="popup__close" type="button" aria-label="Закрыть окно"></button>
+          <form class="popup__form popup__form_add-form" name="popup__add-form">
             <h2 class="popup__title">Новое место</h2>
             <input class="popup__input popup__input_is_add-name" name="popup__input_is_add-name" type="text" placeholder="Название" required />
             <input
@@ -52,11 +57,14 @@
             />
             <input type="submit" class="popup__submit" value="Создать" />
           </form>
-          <figure class="popup__picture">
-            <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg" alt="Рисунок" class="popup__photo" />
-            <figcaption class="popup__caption"></figcaption>
-          </figure>
         </div>
+      </div>
+      <div class="popup popup_form_image">
+        <figure class="popup__picture">
+          <button class="popup__close" type="button" aria-label="Закрыть окно"></button>
+          <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg" alt="Рисунок" class="popup__photo" />
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
       </div>
     </div>
     <template class="element-template">
