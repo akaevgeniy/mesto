@@ -78,21 +78,21 @@ const renderElement = (taskName) => {
 // Перебираем реверсированный массив с карточками, в качестве колбэка функция добавления новой карточки
 initialCards.reverse();
 initialCards.forEach(renderElement);
-// Функция для открытия модального окна, добавляем попапу класс,
-// при открытии окна данные со страницы записываюся в инпуты формы
+// Функция для открытия модального окна, добавляем попапу класс
 function openPopup(popup) {
   popup.classList.add('popup_is-opened');
 }
-// Функция для закрытия модального окна, удаляем у попапа и форм классы
+// Функция для закрытия модального окна, удаляем у попапа класс
 function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
 }
+// Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
 function openProfileForm() {
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
   openPopup(editPopup);
 }
-// Переопределяем submit для перезаписывания полей из инпутов на страницу
+// Функция редактирования профиля, переопределяем submit для перезаписывания полей из инпутов на страницу
 function submitProfileForm(evt) {
   evt.preventDefault();
   namePage.textContent = nameInput.value;
@@ -113,7 +113,7 @@ const addElement = (event) => {
   linkAddInput.value = '';
   closePopup(addPopup);
 };
-// Вешаем слушатели событий для открытия/закрытия попапа и пересохранения данных, добавления новой карточки
+// Вешаем слушатели событий для открытия/закрытия попапов и пересохранения данных, добавления новой карточки
 editButtonActive.addEventListener('click', openProfileForm);
 addButtonActive.addEventListener('click', () => openPopup(addPopup));
 editPopupCloseButton.addEventListener('click', () => closePopup(editPopup));
