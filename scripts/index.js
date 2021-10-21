@@ -84,15 +84,27 @@ initialCards.forEach(renderElement);
 // Функция для открытия модального окна, добавляем попапу класс
 const openPopup = (popup) => {
   popup.classList.add('popup_is-opened');
+  popup.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', closeEscape);
 };
 // Функция для закрытия модального окна, удаляем у попапа класс
 const closePopup = (popup) => {
   popup.classList.remove('popup_is-opened');
+  popup.removeEventListener('click', closeOverlay);
+  document.removeEventListener('keydown', closeEscape);
 };
 // Функция для закрытия модального окна по клику на оверлей
 const closeOverlay = (evt) => {
   if (evt.target.classList.contains('popup')) {
     evt.target.classList.toggle('popup_is-opened');
+    closePopup(evt.target);
+  }
+};
+// Функция для закрытия модального окна по нажатию на Esc
+const closeEscape = (evt) => {
+  if (evt.key === 'Escape') {
+    const activePopup = document.querySelector('.popup_is-opened');
+    closePopup(activePopup);
   }
 };
 // Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
@@ -130,6 +142,3 @@ addPopupCloseButton.addEventListener('click', () => closePopup(addPopup));
 imagePopupCloseButton.addEventListener('click', () => closePopup(imageForm));
 editForm.addEventListener('submit', submitProfileForm);
 addForm.addEventListener('submit', addElement);
-editPopup.addEventListener('click', closeOverlay);
-addPopup.addEventListener('click', closeOverlay);
-imageForm.addEventListener('click', closeOverlay);
