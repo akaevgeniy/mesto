@@ -89,6 +89,12 @@ const openPopup = (popup) => {
 const closePopup = (popup) => {
   popup.classList.remove('popup_is-opened');
 };
+// Функция для закрытия модального окна по клику на оверлей
+const closeOverlay = (evt) => {
+  if (evt.target.classList.contains('popup')) {
+    evt.target.classList.toggle('popup_is-opened');
+  }
+};
 // Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
 const openProfileForm = () => {
   nameInput.value = namePage.textContent;
@@ -124,3 +130,6 @@ addPopupCloseButton.addEventListener('click', () => closePopup(addPopup));
 imagePopupCloseButton.addEventListener('click', () => closePopup(imageForm));
 editForm.addEventListener('submit', submitProfileForm);
 addForm.addEventListener('submit', addElement);
+editPopup.addEventListener('click', closeOverlay);
+addPopup.addEventListener('click', closeOverlay);
+imageForm.addEventListener('click', closeOverlay);
