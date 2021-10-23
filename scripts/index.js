@@ -84,24 +84,23 @@ initialCards.forEach(renderElement);
 // Функция для открытия модального окна, добавляем попапу класс
 const openPopup = (popup) => {
   popup.classList.add('popup_is-opened');
-  popup.addEventListener('click', closeOverlay);
-  document.addEventListener('keydown', closeEscape);
+  popup.addEventListener('click', closePopupOverlay);
+  document.addEventListener('keydown', closePopupEscape);
 };
 // Функция для закрытия модального окна, удаляем у попапа класс
 const closePopup = (popup) => {
   popup.classList.remove('popup_is-opened');
-  popup.removeEventListener('click', closeOverlay);
-  document.removeEventListener('keydown', closeEscape);
+  popup.removeEventListener('click', closePopupOverlay);
+  document.removeEventListener('keydown', closePopupEscape);
 };
 // Функция для закрытия модального окна по клику на оверлей
-const closeOverlay = (evt) => {
+const closePopupOverlay = (evt) => {
   if (evt.target.classList.contains('popup')) {
-    evt.target.classList.toggle('popup_is-opened');
     closePopup(evt.target);
   }
 };
 // Функция для закрытия модального окна по нажатию на Esc
-const closeEscape = (evt) => {
+const closePopupEscape = (evt) => {
   if (evt.key === 'Escape') {
     const activePopup = document.querySelector('.popup_is-opened');
     closePopup(activePopup);
