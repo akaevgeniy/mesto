@@ -81,13 +81,13 @@ const renderElement = (elem) => {
 // Перебираем реверсированный массив с карточками, в качестве колбэка функция добавления новой карточки
 initialCards.reverse();
 initialCards.forEach(renderElement);
-// Функция для открытия модального окна, добавляем попапу класс
+// Функция для открытия модального окна, добавляем попапу класс и добавляем слушатели на закрытие по оверлею и Escape
 const openPopup = (popup) => {
   popup.classList.add('popup_is-opened');
   popup.addEventListener('click', closePopupOverlay);
   document.addEventListener('keydown', closePopupEscape);
 };
-// Функция для закрытия модального окна, удаляем у попапа класс
+// Функция для закрытия модального окна, удаляем у попапа класс, удаляем слушатели на закрытие по оверлею и Escape
 const closePopup = (popup) => {
   popup.classList.remove('popup_is-opened');
   popup.removeEventListener('click', closePopupOverlay);
