@@ -1,57 +1,3 @@
-/*function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
-
-  formList.forEach(addEventListeners);
-}
-
-enableValidation();
-
-function addEventListeners(formElement) {
-  const inputList = Array.from(document.querySelectorAll('.popup__input'));
-  inputList.forEach(addListenersToInput);
-  formElement.addEventListener('submit', handleSubmit);
-  formElement.addEventListener('input', handleFormInput);
-  setSubmitButtonState(formElement);
-}
-
-function handleFormInput(evt) {
-  const formElement = evt.currentTarget;
-  setSubmitButtonState(formElement);
-}
-
-function setSubmitButtonState(formElement) {
-  const submitButton = formElement.querySelector('.popup__submit');
-  submitButton.disabled = !formElement.checkValidity();
-  submitButton.classList.toggle('popup__submit_invalid', !formElement.checkValidity());
-}
-
-function handleSubmit(evt) {
-  evt.preventDefault();
-  const formElement = evt.target;
-  const data = Array.from(document.querySelectorAll('.popup__input')).reduce((sum, inputElement) => {
-    sum[inputElement.name] = inputElement.value;
-    return sum;
-  }, {});
-  console.log(data);
-}
-
-function addListenersToInput(inputElement) {
-  inputElement.addEventListener('input', handleFieldValidation);
-}
-
-function handleFieldValidation(evt) {
-  const element = evt.target;
-  const errorSpan = document.querySelector(`#${element.id}-error`);
-
-  if (element.validity.valid) {
-    element.classList.remove('popup__input_state_invalid');
-  } else {
-    element.classList.add('popup__input_state_invalid');
-  }
-  errorSpan.textContent = element.validationMessage;
-}
- console.log();
-*/
 // включение валидации вызовом enableValidation
 // все настройки передаются при вызове
 enableValidation({
@@ -65,6 +11,7 @@ enableValidation({
 //Функция для включения валидации всех форм
 function enableValidation(settingsObject) {
   const formList = Array.from(document.querySelectorAll(settingsObject.formSelector));
+  //перебираем элементы массива с формами попапа
   formList.forEach((formElement) => {
     setEventListeners(
       formElement,
@@ -76,7 +23,7 @@ function enableValidation(settingsObject) {
     );
   });
 }
-
+//функция для назначения событий при валидации формы
 function setEventListeners(formElement, input, button, inactiveBtn, inputError, errorClass) {
   const inputList = Array.from(formElement.querySelectorAll(input));
   const buttonElement = formElement.querySelector(button);
@@ -90,7 +37,7 @@ function setEventListeners(formElement, input, button, inactiveBtn, inputError, 
     });
   });
 }
-
+//функция для проверки состояния кнопки формы
 function toggleButtonState(inputList, buttonElement, inactiveBtn) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(inactiveBtn);
@@ -100,13 +47,13 @@ function toggleButtonState(inputList, buttonElement, inactiveBtn) {
     buttonElement.disabled = hasInvalidInput(inputList);
   }
 }
-
+//проверяем, является ли хотя бы одно значение инпута false, т.е. не прошло валидацию
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 }
-
+//
 function checkInputValidity(formElement, inputElement, inputError, errorClass) {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, inputError, errorClass);
@@ -114,16 +61,18 @@ function checkInputValidity(formElement, inputElement, inputError, errorClass) {
     hideInputError(formElement, inputElement, inputError, errorClass);
   }
 }
-
+//функция для показа сообщения об ошибке валидации, span находим по id
 function showInputError(formElement, inputElement, errorMessage, inputError, errorClass) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  //добавляем классы для инпута и спана, ошибка валидации, подчеркивание инпута красной рамкой
   inputElement.classList.add(inputError);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(errorClass);
 }
-
+//функция для скрытия сообщения об ошибке валидации, span находим по id
 function hideInputError(formElement, inputElement, inputError, errorClass) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  //удаляем классы у инпута и спана
   inputElement.classList.remove(inputError);
   errorElement.classList.remove(errorClass);
   errorElement.textContent = '';
