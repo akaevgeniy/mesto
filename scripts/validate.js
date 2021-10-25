@@ -53,7 +53,8 @@ function hasInvalidInput(inputList) {
     return !inputElement.validity.valid;
   });
 }
-//
+//проверка валидности, если поле не валидно, то вызываем showInputError с параметрами,
+//иначе вызываем hideInputError и скрываем сообщение об ошибке валидации
 function checkInputValidity(formElement, inputElement, inputError, errorClass) {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, inputError, errorClass);

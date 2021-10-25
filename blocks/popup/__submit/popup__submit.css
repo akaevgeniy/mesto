@@ -1,5 +1,5 @@
 .popup__submit {
-  margin: 52px auto 0;
+  margin: 17px auto 0;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -26,6 +26,6 @@
     max-width: 238px;
     width: 100%;
     height: 46px;
-    margin-top: 45px;
+    margin-top: 10px;
   }
 }
