@@ -28,16 +28,17 @@ function setEventListeners(formElement, input, button, inactiveBtn, inputError, 
   const inputList = Array.from(formElement.querySelectorAll(input));
   const buttonElement = formElement.querySelector(button);
   const inactiveButton = inactiveBtn;
-
+  //Вызов функции toggleButtonState, проверка состояния кнопки при изменении каждого инпута
   toggleButtonState(inputList, buttonElement, inactiveButton);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement, inputError, errorClass);
+      //Вызов функции toggleButtonState для проверки состояния кнопки после первой загрузки страницы
       toggleButtonState(inputList, buttonElement, inactiveButton);
     });
   });
 }
-//функция для проверки состояния кнопки формы
+//функция для проверки и изменения состояния кнопки submit формы
 function toggleButtonState(inputList, buttonElement, inactiveBtn) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(inactiveBtn);

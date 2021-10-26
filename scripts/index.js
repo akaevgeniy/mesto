@@ -106,10 +106,16 @@ const closePopupEscape = (evt) => {
     closePopup(activePopup);
   }
 };
-// Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
-const openProfileForm = () => {
+//Функция для заполнения полей редактирования профиля
+const setInputsProfileForm = () => {
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
+};
+//вызываем функцию,заполняющую поля формы с профилем для проверки на валидность после первого запуска
+setInputsProfileForm();
+// Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
+const openProfileForm = () => {
+  setInputsProfileForm();
   openPopup(editPopup);
 };
 // Функция редактирования профиля, переопределяем submit для перезаписывания полей из инпутов на страницу
