@@ -10,17 +10,12 @@ enableValidation({
 });
 //Функция для включения валидации всех форм
 function enableValidation(settingsObject) {
-  const formList = Array.from(document.querySelectorAll(settingsObject.formSelector));
+  //Делаем деструктурирующее присваивание объекта
+  const { formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass } = settingsObject;
+  const formList = Array.from(document.querySelectorAll(formSelector));
   //перебираем элементы массива с формами попапа
   formList.forEach((formElement) => {
-    setEventListeners(
-      formElement,
-      settingsObject.inputSelector,
-      settingsObject.submitButtonSelector,
-      settingsObject.inactiveButtonClass,
-      settingsObject.inputErrorClass,
-      settingsObject.errorClass
-    );
+    setEventListeners(formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass);
   });
 }
 //функция для назначения событий при валидации формы
