@@ -44,6 +44,7 @@ const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
+const addFormSubmitButton = addForm.querySelector('.popup__submit');
 // Функция создания новой карточки
 const createCard = (taskName) => {
   const sectionElement = elementTemplate.cloneNode(true);
@@ -136,6 +137,10 @@ const addElement = (event) => {
   renderElement(taskName);
   //Очищаем поля ввода, восстанавливаем стандартные значения всем элементам формы
   addForm.reset();
+  //делаем кнопку формы с невалидными полями неактивной
+  addFormSubmitButton.classList.add('popup__submit_invalid');
+  addFormSubmitButton.disabled = true;
+  //вызов функции закрытия попапа
   closePopup(addPopup);
 };
 // Вешаем слушатели событий для открытия/закрытия попапов и пересохранения данных, добавления новой карточки
