@@ -40,11 +40,11 @@ const addPopupCloseButton = addPopup.querySelector('.popup__close');
 const addForm = document.querySelector('.popup__form_add-form');
 const nameAddInput = addForm.querySelector('.popup__input_is_add-name');
 const linkAddInput = addForm.querySelector('.popup__input_is_add-link');
+const addFormSubmitButton = addForm.querySelector('.popup__submit');
 const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
-const addFormSubmitButton = addForm.querySelector('.popup__submit');
 // Функция создания новой карточки
 const createCard = (taskName) => {
   const sectionElement = elementTemplate.cloneNode(true);
