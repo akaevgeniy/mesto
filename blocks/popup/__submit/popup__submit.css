@@ -19,6 +19,9 @@
 .popup__submit:hover {
   opacity: 0.8;
 }
+.popup__submit:disabled {
+  cursor: default;
+}
 @media screen and (max-width: 767px) {
   .popup__submit {
     font-size: 14px;
