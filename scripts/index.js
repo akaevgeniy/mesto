@@ -35,6 +35,9 @@ const editPopupCloseButton = editPopup.querySelector('.popup__close');
 const editForm = document.querySelector('.popup__form_edit-form');
 const nameInput = editForm.querySelector('.popup__input_is_name');
 const aboutInput = editForm.querySelector('.popup__input_is_about');
+const editFormInputs = editForm.querySelectorAll('.popup__input');
+const editFormErrors = editForm.querySelectorAll('.popup__error');
+const editFormSubmitButton = editForm.querySelector('.popup__submit');
 const addPopup = document.querySelector('.popup_form_add-element');
 const addPopupCloseButton = addPopup.querySelector('.popup__close');
 const addForm = document.querySelector('.popup__form_add-form');
@@ -112,11 +115,21 @@ const setInputsProfileForm = () => {
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
 };
-//вызываем функцию,заполняющую поля формы с профилем для проверки на валидность после первого запуска
-setInputsProfileForm();
+//Функция для задания у формы редактирования профиля изначальных значений инпутов, спанов с ошибками и кнопки
+const editFormDefaultState = () => {
+  editFormSubmitButton.classList.remove('popup__submit_invalid');
+  editFormSubmitButton.disabled = false;
+  editFormInputs.forEach((formInput) => {
+    formInput.classList.remove('popup__input_state_invalid');
+  });
+  editFormErrors.forEach((formError) => {
+    formError.textContent = '';
+  });
+};
 // Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
 const openProfileForm = () => {
   setInputsProfileForm();
+  editFormDefaultState();
   openPopup(editPopup);
 };
 // Функция редактирования профиля, переопределяем submit для перезаписывания полей из инпутов на страницу
