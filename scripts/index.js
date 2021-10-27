@@ -115,7 +115,7 @@ const setInputsProfileForm = () => {
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
 };
-//Функция для задания у формы редактирования профиля изначальных значений инпутов, спанов с ошибками и кнопки
+//Функция для задания у формы редактирования профиля изначальных значений инпутов, спанов с ошибками и состояния кнопки
 const editFormDefaultState = () => {
   editFormSubmitButton.classList.remove('popup__submit_invalid');
   editFormSubmitButton.disabled = false;
