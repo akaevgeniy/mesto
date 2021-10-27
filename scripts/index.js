@@ -126,7 +126,7 @@ const editFormDefaultState = () => {
     formError.textContent = '';
   });
 };
-// Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна
+// Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна, вызывается функция для задания стандартных значений
 const openProfileForm = () => {
   setInputsProfileForm();
   editFormDefaultState();
