@@ -48,43 +48,64 @@ const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
+const sectionElementTitle = document.querySelector('.element__title');
+const sectionElementPhoto = document.querySelector('.element__photo');
+const elementLikeButton = document.querySelector('.element__like');
+
 // Функция создания новой карточки
-const createCard = (taskName) => {
-  const sectionElement = elementTemplate.cloneNode(true);
-  const sectionElementTitle = sectionElement.querySelector('.element__title');
-  const sectionElementPhoto = sectionElement.querySelector('.element__photo');
-  const elementLikeButton = sectionElement.querySelector('.element__like');
-  sectionElementPhoto.src = taskName.link;
-  sectionElementPhoto.alt = taskName.name;
-  sectionElementTitle.textContent = taskName.name;
-  // Вешаем функцию на событие нажатия по кнопке лайка
-  elementLikeButton.addEventListener('click', (evt) => {
-    evt.target.classList.toggle('element__like_active');
-  });
-  // Находим в ДОМ и вешаем функцию на событие нажатия по кнопке удаления карточки
-  const elementDeleteBtn = sectionElement.querySelector('.element__delete');
-  elementDeleteBtn.addEventListener('click', (event) => {
-    event.target.closest('.element').remove();
-  });
-  // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
-  sectionElementPhoto.addEventListener('click', (ev) => {
-    const layoutPhoto = document.querySelector('.popup__picture');
-    const zoomPhoto = layoutPhoto.querySelector('.popup__photo');
-    const zoomPhotoCaption = layoutPhoto.querySelector('.popup__caption');
-    zoomPhoto.src = ev.target.src;
-    zoomPhoto.alt = ev.target.alt;
-    zoomPhotoCaption.textContent = ev.target.alt;
-    openPopup(imageForm);
-  });
-  return sectionElement;
+class Card {
+  constructor(data, cardSelector) {
+    this._name = data.name;
+    this._link = data.link;
+    this._cardSelector = cardSelector;
+  }
+
+  _getTemplate() {
+    const cardElement = document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);
+
+    return cardElement;
+  }
+
+  generateCard() {
+    this._element = this._getTemplate();
+    this._setEventListeners();
+
+    this._element.querySelector('.element__photo').src = this._link;
+    this._element.querySelector('.element__photo').alt = this._name;
+    this._element.querySelector('.element__title').textContent = this._name;
+
+    return this._element;
+  }
+  _setEventListeners() {
+    // Вешаем функцию на событие нажатия по кнопке лайка
+    this._element.querySelector('.element__like').addEventListener('click', () => {
+      this._element.querySelector('.element__like').classList.toggle('element__like_active');
+    });
+    // // Находим в ДОМ и вешаем функцию на событие нажатия по кнопке удаления карточки
+    this._element.querySelector('.element__delete').addEventListener('click', () => {
+      this._element.querySelector('.element__delete').closest('.element').remove();
+    });
+    // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
+    this._element.querySelector('.element__photo').addEventListener('click', () => {
+      document.querySelector('.popup__photo').src = this._link;
+      document.querySelector('.popup__caption').textContent = this._name;
+      openPopup(imageForm);
+    });
+  }
+}
+// Функция добавления карточек в контейнер elements (дальнейшее добавление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
+const renderElement = (cardElement) => {
+  elementContainer.prepend(cardElement);
 };
-// Функция добавления карточек в контейнер elements (дальнейшее добаление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
-const renderElement = (elem) => {
-  elementContainer.prepend(createCard(elem));
-};
-// Перебираем реверсированный массив с карточками, в качестве колбэка функция добавления новой карточки
+// Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card
 initialCards.reverse();
-initialCards.forEach(renderElement);
+initialCards.forEach((item) => {
+  const card = new Card(item, '.element-template');
+  const cardElement = card.generateCard();
+  // Добавляем карточки в контейнер
+  renderElement(cardElement);
+});
+
 // Функция для открытия модального окна, добавляем попапу класс и добавляем слушатели на закрытие по оверлею и Escape
 const openPopup = (popup) => {
   popup.classList.add('popup_is-opened');
@@ -142,12 +163,15 @@ const submitProfileForm = (evt) => {
 // Функция добавления новой карточки в контейнер
 const addElement = (event) => {
   event.preventDefault();
-  const taskName = {
+  const newCard = {
     name: nameAddInput.value,
     link: linkAddInput.value,
   };
+  //создаем новый экземпляр класса Card
+  const card = new Card(newCard, '.element-template');
+  const cardElement = card.generateCard();
   //Вызов функции добавления элементов в контейнер
-  renderElement(taskName);
+  renderElement(cardElement);
   //Очищаем поля ввода, восстанавливаем стандартные значения всем элементам формы
   addForm.reset();
   //делаем кнопку формы с невалидными полями неактивной
