@@ -52,20 +52,20 @@ const sectionElementTitle = document.querySelector('.element__title');
 const sectionElementPhoto = document.querySelector('.element__photo');
 const elementLikeButton = document.querySelector('.element__like');
 
-// Функция создания новой карточки
+// Класс, создающий карточку
 class Card {
   constructor(data, cardSelector) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
   }
-
+  //Приватный метод, возвращающий новый узел с данными
   _getTemplate() {
     const cardElement = document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);
 
     return cardElement;
   }
-
+  //Публичный метод, возвращающий узел с заполненными данными (элемент карточки) и активирующий события
   generateCard() {
     this._element = this._getTemplate();
     this._setEventListeners();
@@ -76,12 +76,13 @@ class Card {
 
     return this._element;
   }
+  // Приватный метод, устанавливающий слушатели событий
   _setEventListeners() {
     // Вешаем функцию на событие нажатия по кнопке лайка
     this._element.querySelector('.element__like').addEventListener('click', () => {
       this._element.querySelector('.element__like').classList.toggle('element__like_active');
     });
-    // // Находим в ДОМ и вешаем функцию на событие нажатия по кнопке удаления карточки
+    // Вешаем функцию на событие нажатия по кнопке удаления карточки
     this._element.querySelector('.element__delete').addEventListener('click', () => {
       this._element.querySelector('.element__delete').closest('.element').remove();
     });
