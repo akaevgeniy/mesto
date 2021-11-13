@@ -1,3 +1,5 @@
+//импортируем функцию открытия попапа и константу из главного скрипта
+import { openPopup, imageForm } from './index.js';
 // Класс, создающий карточку
 export class Card {
   constructor(data, cardSelector) {
@@ -8,7 +10,6 @@ export class Card {
   //Приватный метод, возвращающий новый узел с данными
   _getTemplate() {
     const cardElement = document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);
-
     return cardElement;
   }
   //Публичный метод, возвращающий узел с заполненными данными (элемент карточки) и активирующий события
@@ -31,12 +32,14 @@ export class Card {
     elementLikeButton.addEventListener('click', () => {
       elementLikeButton.classList.toggle('element__like_active');
     });
+    const deleteElementButton = this._element.querySelector('.element__delete');
     // Вешаем функцию на событие нажатия по кнопке удаления карточки
-    this._element.querySelector('.element__delete').addEventListener('click', () => {
-      this._element.querySelector('.element__delete').closest('.element').remove();
+    deleteElementButton.addEventListener('click', () => {
+      deleteElementButton.closest('.element').remove();
     });
+    const sectionElementPhoto = this._element.querySelector('.element__photo');
     // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
-    this._element.querySelector('.element__photo').addEventListener('click', () => {
+    sectionElementPhoto.addEventListener('click', () => {
       document.querySelector('.popup__photo').src = this._link;
       document.querySelector('.popup__caption').textContent = this._name;
       openPopup(imageForm);

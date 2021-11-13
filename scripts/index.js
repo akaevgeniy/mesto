@@ -25,6 +25,15 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
   },
 ];
+//объект настроек с селекторами и классами формы для проверки валидности формы
+const settingsObject = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_invalid',
+  inputErrorClass: 'popup__input_state_invalid',
+  errorClass: 'popup__error_visible',
+};
 // Находим в DOM попап, формы, инпуты и кнопки редактирования, добавления новой карточки, закрытия формы
 const elementContainer = document.querySelector('.elements');
 const editButtonActive = document.querySelector('.profile__edit-button');
@@ -43,10 +52,12 @@ const addForm = document.querySelector('.popup__form_add-form');
 const nameAddInput = addForm.querySelector('.popup__input_is_add-name');
 const linkAddInput = addForm.querySelector('.popup__input_is_add-link');
 const addFormSubmitButton = addForm.querySelector('.popup__submit');
-const imageForm = document.querySelector('.popup_form_image');
+export const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
+//массив, содержащий все формы для валидации
+const popupForms = [editForm, addForm];
 // Функция добавления карточек в контейнер elements (дальнейшее добавление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
 const renderElement = (cardElement) => {
   elementContainer.prepend(cardElement);
@@ -63,32 +74,14 @@ initialCards.forEach((item) => {
 });
 //импортируем класс FormValidator
 import { FormValidator } from './FormValidator.js';
-const validit = new FormValidator(
-  {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_invalid',
-    inputErrorClass: 'popup__input_state_invalid',
-    errorClass: 'popup__error_visible',
-  },
-  addForm
-);
-const validit2 = new FormValidator(
-  {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_invalid',
-    inputErrorClass: 'popup__input_state_invalid',
-    errorClass: 'popup__error_visible',
-  },
-  editForm
-);
-validit.enableValidation();
-validit2.enableValidation();
+//создается отдельный экземпляр класса FormValidator для каждой формы
+popupForms.forEach((form) => {
+  const validator = new FormValidator(settingsObject, form);
+  validator.enableValidation();
+});
 // Функция для открытия модального окна, добавляем попапу класс и добавляем слушатели на закрытие по оверлею и Escape
-const openPopup = (popup) => {
+//экспортируем для использования в классе Card
+export const openPopup = (popup) => {
   popup.classList.add('popup_is-opened');
   popup.addEventListener('click', closePopupOverlay);
   document.addEventListener('keydown', closePopupEscape);

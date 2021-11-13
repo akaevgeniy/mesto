@@ -11,6 +11,8 @@ export class FormValidator {
       errorClass: this._errorClass,
     } = settingsObject);
     this._elementForm = elementForm;
+    this._inputList = Array.from(this._elementForm.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._elementForm.querySelector(this._submitButtonSelector);
   }
   //Публичный метод для включения валидации формы
   enableValidation() {
@@ -19,12 +21,8 @@ export class FormValidator {
   }
   //приватный метод для назначения событий при валидации формы
   _setEventListeners() {
-    const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-    const buttonElement = this._form.querySelector(this._submitButtonSelector);
-    const inactiveButton = this._inactiveButtonClass;
     this._toggleButtonState();
-
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState();
@@ -33,20 +31,17 @@ export class FormValidator {
   }
   //приватный метод для проверки и изменения состояния кнопки submit формы
   _toggleButtonState = () => {
-    const buttonElement = this._form.querySelector(this._submitButtonSelector);
-    const inactiveButton = this._inactiveButtonClass;
     if (this._hasInvalidInput()) {
-      buttonElement.classList.add(inactiveButton);
-      buttonElement.disabled = this._hasInvalidInput();
+      this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.disabled = this._hasInvalidInput();
     } else {
-      buttonElement.classList.remove(inactiveButton);
-      buttonElement.disabled = this._hasInvalidInput();
+      this._buttonElement.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.disabled = this._hasInvalidInput();
     }
   };
   //в приватном методе проверяем, является ли хотя бы одно значение инпута false, т.е. не прошло валидацию
   _hasInvalidInput = () => {
-    const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-    return inputList.some((inputElement) => {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
