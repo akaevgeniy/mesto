@@ -65,7 +65,7 @@ validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
 //импортируем класс Card
 import { Card } from './card.js';
-//функция для создания карточки, то есть экземплара класса Card
+//функция для создания карточки, то есть экземпляра класса Card
 const createCard = (item) => {
   const card = new Card(item, '.element-template');
   const cardElement = card.generateCard();
