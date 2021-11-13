@@ -1,4 +1,4 @@
-//импортируем функцию открытия попапа и константу из главного скрипта
+//импортируем функцию открытия попапа и константу попапа с рисунком
 import { openPopup, imageForm } from './index.js';
 // Класс, создающий карточку
 export class Card {
@@ -25,18 +25,27 @@ export class Card {
 
     return this._element;
   }
-  // Приватный метод, устанавливающий слушатели событий
-  _setEventListeners() {
+  // Приватный метод для установки лайка
+  _setLikeButton() {
     const elementLikeButton = this._element.querySelector('.element__like');
     // Вешаем функцию на событие нажатия по кнопке лайка
     elementLikeButton.addEventListener('click', () => {
       elementLikeButton.classList.toggle('element__like_active');
     });
+  }
+  // Приватный метод для удаления элемента
+  _setDeleteElementButton() {
     const deleteElementButton = this._element.querySelector('.element__delete');
     // Вешаем функцию на событие нажатия по кнопке удаления карточки
     deleteElementButton.addEventListener('click', () => {
-      deleteElementButton.closest('.element').remove();
+      this._element.remove();
+      this._element = null;
     });
+  }
+  // Приватный метод, устанавливающий слушатели событий
+  _setEventListeners() {
+    this._setLikeButton();
+    this._setDeleteElementButton();
     const sectionElementPhoto = this._element.querySelector('.element__photo');
     // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
     sectionElementPhoto.addEventListener('click', () => {
