@@ -58,20 +58,21 @@ const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
 //массив, содержащий все формы для валидации
 const popupForms = [editForm, addForm];
-// Функция добавления карточек в контейнер elements (дальнейшее добавление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
-const renderElement = (cardElement) => {
-  elementContainer.prepend(cardElement);
-};
 //импортируем класс Card
 import { Card } from './card.js';
-// Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card
-initialCards.reverse();
-initialCards.forEach((item) => {
+//функция для создания карточки, то есть экземплара класса Card
+const createCard = (item) => {
   const card = new Card(item, '.element-template');
   const cardElement = card.generateCard();
-  // Добавляем карточки в контейнер
-  renderElement(cardElement);
-});
+  return cardElement;
+};
+// Функция добавления карточек в контейнер elements (дальнейшее добавление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
+const renderElement = (element) => {
+  elementContainer.prepend(createCard(element));
+};
+// Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card и добавляем их в контейнер
+initialCards.reverse();
+initialCards.forEach(renderElement);
 //импортируем класс FormValidator
 import { FormValidator } from './FormValidator.js';
 //создается отдельный экземпляр класса FormValidator для каждой формы
