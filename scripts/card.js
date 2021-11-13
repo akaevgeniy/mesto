@@ -1,5 +1,5 @@
 //импортируем функцию открытия попапа и константу попапа с рисунком
-import { openPopup, imageForm } from './index.js';
+import { openPopup, imageForm } from './utils.js';
 // Класс, создающий карточку
 export class Card {
   constructor(data, cardSelector) {

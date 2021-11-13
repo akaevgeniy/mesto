@@ -34,6 +34,7 @@ const settingsObject = {
   inputErrorClass: 'popup__input_state_invalid',
   errorClass: 'popup__error_visible',
 };
+import { openPopup, imageForm, closePopup } from './utils.js';
 // Находим в DOM попап, формы, инпуты и кнопки редактирования, добавления новой карточки, закрытия формы
 const elementContainer = document.querySelector('.elements');
 const editButtonActive = document.querySelector('.profile__edit-button');
@@ -52,7 +53,6 @@ const addForm = document.querySelector('.popup__form_add-form');
 const nameAddInput = addForm.querySelector('.popup__input_is_add-name');
 const linkAddInput = addForm.querySelector('.popup__input_is_add-link');
 const addFormSubmitButton = addForm.querySelector('.popup__submit');
-export const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
@@ -78,32 +78,6 @@ const renderElement = (element) => {
 // Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card и добавляем их в контейнер
 initialCards.reverse();
 initialCards.forEach(renderElement);
-// Функция для открытия модального окна, добавляем попапу класс и добавляем слушатели на закрытие по оверлею и Escape
-//экспортируем для использования в классе Card
-export const openPopup = (popup) => {
-  popup.classList.add('popup_is-opened');
-  popup.addEventListener('click', closePopupOverlay);
-  document.addEventListener('keydown', closePopupEscape);
-};
-// Функция для закрытия модального окна, удаляем у попапа класс, удаляем слушатели на закрытие по оверлею и Escape
-const closePopup = (popup) => {
-  popup.classList.remove('popup_is-opened');
-  popup.removeEventListener('click', closePopupOverlay);
-  document.removeEventListener('keydown', closePopupEscape);
-};
-// Функция для закрытия модального окна по клику на оверлей
-const closePopupOverlay = (evt) => {
-  if (evt.target.classList.contains('popup')) {
-    closePopup(evt.target);
-  }
-};
-// Функция для закрытия модального окна по нажатию на Esc
-const closePopupEscape = (evt) => {
-  if (evt.key === 'Escape') {
-    const activePopup = document.querySelector('.popup_is-opened');
-    closePopup(activePopup);
-  }
-};
 //Функция для заполнения полей редактирования профиля
 const setInputsProfileForm = () => {
   nameInput.value = namePage.textContent;
