@@ -27,7 +27,6 @@ const initialCards = [
 ];
 // Находим в DOM попап, формы, инпуты и кнопки редактирования, добавления новой карточки, закрытия формы
 const elementContainer = document.querySelector('.elements');
-const elementTemplate = document.querySelector('.element-template').content;
 const editButtonActive = document.querySelector('.profile__edit-button');
 const addButtonActive = document.querySelector('.profile__add-button');
 const editPopup = document.querySelector('.popup_form_edit');
@@ -48,56 +47,12 @@ const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
-const sectionElementTitle = document.querySelector('.element__title');
-const sectionElementPhoto = document.querySelector('.element__photo');
-const elementLikeButton = document.querySelector('.element__like');
-
-// Класс, создающий карточку
-class Card {
-  constructor(data, cardSelector) {
-    this._name = data.name;
-    this._link = data.link;
-    this._cardSelector = cardSelector;
-  }
-  //Приватный метод, возвращающий новый узел с данными
-  _getTemplate() {
-    const cardElement = document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);
-
-    return cardElement;
-  }
-  //Публичный метод, возвращающий узел с заполненными данными (элемент карточки) и активирующий события
-  generateCard() {
-    this._element = this._getTemplate();
-    this._setEventListeners();
-
-    this._element.querySelector('.element__photo').src = this._link;
-    this._element.querySelector('.element__photo').alt = this._name;
-    this._element.querySelector('.element__title').textContent = this._name;
-
-    return this._element;
-  }
-  // Приватный метод, устанавливающий слушатели событий
-  _setEventListeners() {
-    // Вешаем функцию на событие нажатия по кнопке лайка
-    this._element.querySelector('.element__like').addEventListener('click', () => {
-      this._element.querySelector('.element__like').classList.toggle('element__like_active');
-    });
-    // Вешаем функцию на событие нажатия по кнопке удаления карточки
-    this._element.querySelector('.element__delete').addEventListener('click', () => {
-      this._element.querySelector('.element__delete').closest('.element').remove();
-    });
-    // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
-    this._element.querySelector('.element__photo').addEventListener('click', () => {
-      document.querySelector('.popup__photo').src = this._link;
-      document.querySelector('.popup__caption').textContent = this._name;
-      openPopup(imageForm);
-    });
-  }
-}
 // Функция добавления карточек в контейнер elements (дальнейшее добавление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
 const renderElement = (cardElement) => {
   elementContainer.prepend(cardElement);
 };
+//импортируем класс Card
+import { Card } from './card.js';
 // Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card
 initialCards.reverse();
 initialCards.forEach((item) => {
@@ -106,7 +61,32 @@ initialCards.forEach((item) => {
   // Добавляем карточки в контейнер
   renderElement(cardElement);
 });
-
+//импортируем класс FormValidator
+import { FormValidator } from './FormValidator.js';
+const validit = new FormValidator(
+  {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__submit',
+    inactiveButtonClass: 'popup__submit_invalid',
+    inputErrorClass: 'popup__input_state_invalid',
+    errorClass: 'popup__error_visible',
+  },
+  addForm
+);
+const validit2 = new FormValidator(
+  {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__submit',
+    inactiveButtonClass: 'popup__submit_invalid',
+    inputErrorClass: 'popup__input_state_invalid',
+    errorClass: 'popup__error_visible',
+  },
+  editForm
+);
+validit.enableValidation();
+validit2.enableValidation();
 // Функция для открытия модального окна, добавляем попапу класс и добавляем слушатели на закрытие по оверлею и Escape
 const openPopup = (popup) => {
   popup.classList.add('popup_is-opened');
