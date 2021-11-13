@@ -56,8 +56,13 @@ export const imageForm = document.querySelector('.popup_form_image');
 const imagePopupCloseButton = imageForm.querySelector('.popup__close');
 const namePage = document.querySelector('.profile__name');
 const aboutPage = document.querySelector('.profile__about');
-//массив, содержащий все формы для валидации
-const popupForms = [editForm, addForm];
+//импортируем класс FormValidator
+import { FormValidator } from './FormValidator.js';
+//создается отдельный экземпляр класса FormValidator для каждой формы
+const validatorAddForm = new FormValidator(settingsObject, addForm);
+const validatorEditForm = new FormValidator(settingsObject, editForm);
+validatorAddForm.enableValidation();
+validatorEditForm.enableValidation();
 //импортируем класс Card
 import { Card } from './card.js';
 //функция для создания карточки, то есть экземплара класса Card
@@ -73,13 +78,6 @@ const renderElement = (element) => {
 // Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card и добавляем их в контейнер
 initialCards.reverse();
 initialCards.forEach(renderElement);
-//импортируем класс FormValidator
-import { FormValidator } from './FormValidator.js';
-//создается отдельный экземпляр класса FormValidator для каждой формы
-popupForms.forEach((form) => {
-  const validator = new FormValidator(settingsObject, form);
-  validator.enableValidation();
-});
 // Функция для открытия модального окна, добавляем попапу класс и добавляем слушатели на закрытие по оверлею и Escape
 //экспортируем для использования в классе Card
 export const openPopup = (popup) => {
@@ -142,11 +140,8 @@ const addElement = (event) => {
     name: nameAddInput.value,
     link: linkAddInput.value,
   };
-  //создаем новый экземпляр класса Card
-  const card = new Card(newCard, '.element-template');
-  const cardElement = card.generateCard();
   //Вызов функции добавления элементов в контейнер
-  renderElement(cardElement);
+  renderElement(newCard);
   //Очищаем поля ввода, восстанавливаем стандартные значения всем элементам формы
   addForm.reset();
   //делаем кнопку формы с невалидными полями неактивной
