@@ -25,33 +25,33 @@ export class Card {
 
     return this._element;
   }
-  // Приватный метод для установки лайка
-  _setLikeButton() {
-    const elementLikeButton = this._element.querySelector('.element__like');
-    // Вешаем функцию на событие нажатия по кнопке лайка
-    elementLikeButton.addEventListener('click', () => {
-      elementLikeButton.classList.toggle('element__like_active');
-    });
+  // Публичный метод для установки лайка
+  setLikeButton() {
+    this._element.querySelector('.element__like').classList.toggle('element__like_active');
   }
-  // Приватный метод для удаления элемента
-  _setDeleteElementButton() {
-    const deleteElementButton = this._element.querySelector('.element__delete');
-    // Вешаем функцию на событие нажатия по кнопке удаления карточки
-    deleteElementButton.addEventListener('click', () => {
-      this._element.remove();
-      this._element = null;
-    });
+  // Публичный метод для удаления элемента
+  setDeleteElementButton() {
+    this._element.remove();
+    this._element = null;
   }
   // Приватный метод, устанавливающий слушатели событий
   _setEventListeners() {
-    this._setLikeButton();
-    this._setDeleteElementButton();
     const sectionElementPhoto = this._element.querySelector('.element__photo');
+    const elementLikeButton = this._element.querySelector('.element__like');
+    const deleteElementButton = this._element.querySelector('.element__delete');
     // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
     sectionElementPhoto.addEventListener('click', () => {
       document.querySelector('.popup__photo').src = this._link;
       document.querySelector('.popup__caption').textContent = this._name;
       openPopup(imageForm);
+    });
+    // Вешаем функцию на событие нажатия по кнопке лайка
+    elementLikeButton.addEventListener('click', () => {
+      this.setLikeButton();
+    });
+    // Вешаем функцию на событие нажатия по кнопке удаления карточки
+    deleteElementButton.addEventListener('click', () => {
+      this.setDeleteElementButton();
     });
   }
 }
