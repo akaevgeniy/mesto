@@ -65,8 +65,32 @@ validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
 //импортируем класс Card
 import { Card } from './card.js';
-//функция для создания карточки, то есть экземпляра класса Card
 const createCard = (item) => {
+  const card = new Card(item, '.element-template');
+  const cardElement = card.generateCard();
+  return cardElement;
+};
+class Section {
+  constructor(data, containerSelector) {
+    this._items = data.items;
+    this._renderer = data.renderer;
+    this._containerSelector = containerSelector;
+  }
+  renderCard(item) {
+    return this._renderer(item);
+  }
+  addItem() {
+    this._items.reverse();
+    this._items.forEach((element) => {
+      // Добавляем в DOM
+      document.querySelector(this._containerSelector).prepend(this.renderCard(element));
+    });
+  }
+}
+const sectionAdd = new Section({ items: initialCards, renderer: createCard }, '.elements');
+sectionAdd.addItem();
+//функция для создания карточки, то есть экземпляра класса Card
+/*const createCard = (item) => {
   const card = new Card(item, '.element-template');
   const cardElement = card.generateCard();
   return cardElement;
@@ -77,7 +101,7 @@ const renderElement = (element) => {
 };
 // Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card и добавляем их в контейнер
 initialCards.reverse();
-initialCards.forEach(renderElement);
+initialCards.forEach(renderElement);*/
 //Функция для заполнения полей редактирования профиля
 const setInputsProfileForm = () => {
   nameInput.value = namePage.textContent;
@@ -110,12 +134,15 @@ const submitProfileForm = (evt) => {
 // Функция добавления новой карточки в контейнер
 const addElement = (event) => {
   event.preventDefault();
-  const newCard = {
-    name: nameAddInput.value,
-    link: linkAddInput.value,
-  };
-  //Вызов функции добавления элементов в контейнер
-  renderElement(newCard);
+  const newCard = [
+    {
+      name: nameAddInput.value,
+      link: linkAddInput.value,
+    },
+  ];
+  //Создаем экземпляр класса с одной новой карточкой
+  const sectionNew = new Section({ items: newCard, renderer: createCard }, '.elements');
+  sectionNew.addItem();
   //Очищаем поля ввода, восстанавливаем стандартные значения всем элементам формы
   addForm.reset();
   //делаем кнопку формы с невалидными полями неактивной
