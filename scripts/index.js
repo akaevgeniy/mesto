@@ -36,7 +36,7 @@ const settingsObject = {
 };
 import { openPopup, imageForm, closePopup } from './utils.js';
 // Находим в DOM попап, формы, инпуты и кнопки редактирования, добавления новой карточки, закрытия формы
-const elementContainer = document.querySelector('.elements');
+//const elementContainer = document.querySelector('.elements');
 const editButtonActive = document.querySelector('.profile__edit-button');
 const addButtonActive = document.querySelector('.profile__add-button');
 const editPopup = document.querySelector('.popup_form_edit');
