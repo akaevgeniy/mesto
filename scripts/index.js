@@ -71,37 +71,101 @@ const createCard = (item) => {
   return cardElement;
 };
 class Section {
-  constructor(data, containerSelector) {
-    this._items = data.items;
-    this._renderer = data.renderer;
-    this._containerSelector = containerSelector;
+  constructor({ items, renderer }, containerSelector) {
+    this._items = items;
+    this._renderer = renderer;
+    this._container = document.querySelector(containerSelector);
   }
-  renderCard(item) {
-    return this._renderer(item);
+  addItem(element) {
+    this._container.append(element);
   }
-  addItem() {
-    this._items.reverse();
-    this._items.forEach((element) => {
-      // Добавляем в DOM
-      document.querySelector(this._containerSelector).prepend(this.renderCard(element));
+  renderItems() {
+    this._items.forEach((item) => {
+      this._renderer(item);
     });
   }
 }
-const sectionAdd = new Section({ items: initialCards, renderer: createCard }, '.elements');
-sectionAdd.addItem();
-//функция для создания карточки, то есть экземпляра класса Card
-/*const createCard = (item) => {
-  const card = new Card(item, '.element-template');
-  const cardElement = card.generateCard();
-  return cardElement;
-};
-// Функция добавления карточек в контейнер elements (дальнейшее добавление новой карточки в начало, реверс-массива в начало равно добавлению в конец)
-const renderElement = (element) => {
-  elementContainer.prepend(createCard(element));
-};
-// Перебираем реверсированный массив с карточками, создаем 6 экземпляров класса Card и добавляем их в контейнер
-initialCards.reverse();
-initialCards.forEach(renderElement);*/
+
+//Создаем класс Popup, который отвечает за открытие и закрытие попапа
+class Popup {
+  constructor(popupSelector) {
+    this._popupSelector = popupSelector;
+  }
+  open() {
+    document.querySelector(this._popupSelector).classList.add('popup_is-opened');
+    //  document.querySelector(this._popupSelector).addEventListener('click', closePopupOverlay);
+    document.addEventListener('keydown', () => {
+      this._handleEscClose();
+    });
+  }
+  close() {
+    document.querySelector(this._popupSelector).classList.remove('popup_is-opened');
+    // document.querySelector(this._popupSelector).removeEventListener('click', closePopupOverlay);
+    document.removeEventListener('keydown', () => {
+      this._handleEscClose();
+    });
+  }
+  _handleEscClose(evt) {
+    if (evt.key === 'Escape') {
+      this.close();
+    }
+  }
+  _setEventListeners() {
+    document
+      .querySelector(this._popupSelector)
+      .querySelector('.popup__close')
+      .addEventListener('click', () => {
+        this.close();
+      });
+  }
+}
+
+class PopupWithImage extends Popup {
+  constructor(popupSelector) {
+    super(popupSelector);
+  }
+  open() {
+    /*document.querySelector('.popup__photo').src = this._link;
+    document.querySelector('.popup__caption').textContent = this._name;*/
+    super.open();
+  }
+}
+
+class PopupWithForm extends Popup {
+  constructor(popupSelector, submitForm) {
+    super(popupSelector);
+    this._submitForm = submitForm;
+  }
+  _setEventListeners() {
+    super._setEventListeners();
+    if (this._popupSelector === '.popup__form_edit-form') {
+      document.querySelector(this._popupSelector).addEventListener('submit', () => submitProfileForm);
+    } else if (this._popupSelector === '.popup_form_add-element') {
+      document.querySelector(this._popupSelector).addEventListener('submit', () => addElement);
+    }
+  }
+  close() {
+    super.close();
+    document.querySelector(this._popupSelector).reset();
+  }
+}
+
+class UserInfo {
+  constructor(nameSelector, aboutSelector) {
+    this._nameSelector = nameSelector;
+    this._aboutSelector = aboutSelector;
+  }
+  getUserInfo() {
+    const nameUser = document.querySelector(this._nameSelector).textContent;
+    const aboutUser = document.querySelector(this._aboutSelector).textContent;
+    return { name: nameUser, about: aboutUser };
+  }
+  setUserInfo() {
+    document.querySelector(this._nameSelector).textContent = nameInput.value;
+    document.querySelector(this._aboutSelector).textContent = aboutInput.value;
+    //close popup
+  }
+}
 //Функция для заполнения полей редактирования профиля
 const setInputsProfileForm = () => {
   nameInput.value = namePage.textContent;
@@ -141,8 +205,8 @@ const addElement = (event) => {
     },
   ];
   //Создаем экземпляр класса с одной новой карточкой
-  const sectionNew = new Section({ items: newCard, renderer: createCard }, '.elements');
-  sectionNew.addItem();
+  // const sectionNew = new Section({ items: newCard, renderer: createCard }, '.elements');
+  // sectionNew.addItem();
   //Очищаем поля ввода, восстанавливаем стандартные значения всем элементам формы
   addForm.reset();
   //делаем кнопку формы с невалидными полями неактивной
