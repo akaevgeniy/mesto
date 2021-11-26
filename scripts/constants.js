@@ -41,16 +41,10 @@ export const editPopupSelector = '.popup_form_edit';
 export const editForm = document.querySelector('.popup__form_edit-form');
 export const nameInput = editForm.querySelector('.popup__input_is_name');
 export const aboutInput = editForm.querySelector('.popup__input_is_about');
-const editFormInputs = editForm.querySelectorAll('.popup__input');
-const editFormErrors = editForm.querySelectorAll('.popup__error');
-const editFormSubmitButton = editForm.querySelector('.popup__submit');
 export const addPopupSelector = '.popup_form_add-element';
 export const addForm = document.querySelector('.popup__form_add-form');
-const nameAddInput = addForm.querySelector('.popup__input_is_add-name');
-const linkAddInput = addForm.querySelector('.popup__input_is_add-link');
-
+export const imageFormSelector = '.popup_form_image';
 export const namePageSelector = '.profile__name';
 export const aboutPageSelector = '.profile__about';
-export const imageForm = document.querySelector('.popup_form_image');
 export const cardSelector = '.element-template';
 export const containerSelector = '.elements';
