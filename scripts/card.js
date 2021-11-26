@@ -1,7 +1,6 @@
 //импортируем функцию открытия попапа и константу попапа с рисунком
 //import { openPopup, imageForm } from './utils.js';
 // Класс, создающий карточку
-import { PopupWithImage } from './PopupWithImage.js';
 import { imageFormSelector } from './constants.js';
 export class Card {
   constructor(data, cardSelector, handleCardClick) {
@@ -45,9 +44,9 @@ export class Card {
     // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
     sectionElementPhoto.addEventListener('click', () => {
       const imageInfo = { link: this._link, name: this._name };
-      const popup = new PopupWithImage(imageFormSelector, imageInfo);
 
-      popup.this._handleCardClick();
+      this._handleCardClick(imageFormSelector, imageInfo);
+      //popup.open();
     });
     // Вешаем функцию на событие нажатия по кнопке лайка
     elementLikeButton.addEventListener('click', () => {

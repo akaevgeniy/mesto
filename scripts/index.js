@@ -17,21 +17,26 @@ import {
 //импортируем класс FormValidator
 import { FormValidator } from './FormValidator.js';
 //создается отдельный экземпляр класса FormValidator для каждой формы
-const validatorAddForm = new FormValidator(settingsObject, addForm);
-const validatorEditForm = new FormValidator(settingsObject, editForm);
-validatorAddForm.enableValidation();
-validatorEditForm.enableValidation();
 //импортируем класс Card
 import { Card } from './card.js';
 import { Section } from './Section.js';
 import { UserInfo } from './UserInfo.js';
 import { PopupWithForm } from './PopupWithForm.js';
+import { PopupWithImage } from './PopupWithImage.js';
+const validatorAddForm = new FormValidator(settingsObject, addForm);
+const validatorEditForm = new FormValidator(settingsObject, editForm);
+validatorAddForm.enableValidation();
+validatorEditForm.enableValidation();
+
 //Создаем экземпляры Card при помощи класса Section
 const CardList = new Section(
   {
     items: initialCards.reverse(),
     renderer: (item) => {
-      const card = new Card(item, cardSelector);
+      const card = new Card(item, cardSelector, (imageFormSelector, imageInfo) => {
+        const popup = new PopupWithImage(imageFormSelector, imageInfo);
+        popup.open();
+      });
       const cardElement = card.generateCard();
       CardList.addItem(cardElement);
     },
@@ -56,7 +61,10 @@ const addPopupForm = new PopupWithForm(addPopupSelector, () => {
     {
       items: [newCard],
       renderer: (item) => {
-        const card = new Card(item, cardSelector);
+        const card = new Card(item, cardSelector, (imageFormSelector, imageInfo) => {
+          const popup = new PopupWithImage(imageFormSelector, imageInfo);
+          popup.open();
+        });
         const cardElement = card.generateCard();
         sectionNew.addItem(cardElement);
       },
