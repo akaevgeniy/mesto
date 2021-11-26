@@ -63,28 +63,9 @@ const validatorAddForm = new FormValidator(settingsObject, addForm);
 const validatorEditForm = new FormValidator(settingsObject, editForm);
 validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
+
 //импортируем класс Card
 import { Card } from './card.js';
-const createCard = (item) => {
-  const card = new Card(item, '.element-template');
-  const cardElement = card.generateCard();
-  return cardElement;
-};
-class Section {
-  constructor({ items, renderer }, containerSelector) {
-    this._items = items;
-    this._renderer = renderer;
-    this._container = document.querySelector(containerSelector);
-  }
-  addItem(element) {
-    this._container.prepend(element);
-  }
-  renderItems() {
-    this._items.forEach((item) => {
-      this._renderer(item);
-    });
-  }
-}
 //Создаем экземпляры Card при помощи класса Section
 const CardList = new Section(
   {
@@ -97,93 +78,8 @@ const CardList = new Section(
   },
   '.elements'
 );
+
 CardList.renderItems();
-//Создаем класс Popup, который отвечает за открытие и закрытие попапа
-export default class Popup {
-  constructor(popupSelector) {
-    this._popup = document.querySelector(popupSelector);
-  }
-  open() {
-    this._popup.classList.add('popup_is-opened');
-    document.addEventListener('keydown', this._handleEscClose.bind(this));
-    this._setEventListeners();
-  }
-  close() {
-    this._popup.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', this._handleEscClose.bind(this));
-  }
-  _handleEscClose(evt) {
-    if (evt.key === 'Escape') {
-      this.close();
-    }
-  }
-  _setEventListeners() {
-    this._popup.querySelector('.popup__close').addEventListener('click', this.close.bind(this));
-    this._popup.addEventListener('click', (evt) => {
-      if (evt.target.classList.contains('popup')) {
-        this.close();
-      }
-    });
-  }
-}
-
-export class PopupWithImage extends Popup {
-  constructor(popupSelector, { link, name }) {
-    super(popupSelector);
-    this._link = link;
-    this._name = name;
-  }
-  open() {
-    this._popup.querySelector('.popup__photo').src = this._link;
-    this._popup.querySelector('.popup__caption').textContent = this._name;
-    super.open();
-  }
-}
-
-export class PopupWithForm extends Popup {
-  constructor(popupSelector, submitFormFunction) {
-    super(popupSelector);
-    this._submitForm = submitFormFunction;
-  }
-  _getInputValues() {
-    this._inputList = this._popup.querySelectorAll('.popup__input');
-    this._inputValues = {};
-    this._inputList.forEach((input) => {
-      this._inputValues[input.name] = input.value;
-    });
-    return this._inputValues;
-  }
-  _setEventListeners() {
-    super._setEventListeners();
-
-    this._popup.querySelector('.popup__form ').addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      this._submitForm();
-    });
-  }
-
-  close() {
-    super.close();
-    this._popup.querySelector('.popup__form ').reset();
-  }
-}
-
-export class UserInfo {
-  constructor({ nameSelector, aboutSelector }) {
-    this._nameSelector = nameSelector;
-    this._aboutSelector = aboutSelector;
-  }
-  getUserInfo() {
-    const nameUser = document.querySelector(this._nameSelector).textContent;
-    const aboutUser = document.querySelector(this._aboutSelector).textContent;
-    return { name: nameUser, about: aboutUser };
-  }
-  setUserInfo({ name, about }) {
-    document.querySelector(this._nameSelector).textContent = name;
-    document.querySelector(this._aboutSelector).textContent = about;
-    //close popup
-  }
-}
 
 const user = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '.profile__about' });
 

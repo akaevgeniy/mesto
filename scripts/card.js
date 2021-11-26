@@ -46,7 +46,7 @@ export class Card {
       const imageInfo = { link: this._link, name: this._name };
       const popup = new PopupWithImage('.popup_form_image', imageInfo);
 
-      popup.open();
+      popup.this._handleCardClick();
     });
     // Вешаем функцию на событие нажатия по кнопке лайка
     elementLikeButton.addEventListener('click', () => {
