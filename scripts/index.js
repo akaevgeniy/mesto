@@ -77,7 +77,7 @@ class Section {
     this._container = document.querySelector(containerSelector);
   }
   addItem(element) {
-    this._container.append(element);
+    this._container.prepend(element);
   }
   renderItems() {
     this._items.forEach((item) => {
@@ -85,25 +85,32 @@ class Section {
     });
   }
 }
-
+//Создаем экземпляры Card при помощи класса Section
+const CardList = new Section(
+  {
+    items: initialCards.reverse(),
+    renderer: (item) => {
+      const card = new Card(item, '.element-template');
+      const cardElement = card.generateCard();
+      CardList.addItem(cardElement);
+    },
+  },
+  '.elements'
+);
+CardList.renderItems();
 //Создаем класс Popup, который отвечает за открытие и закрытие попапа
-class Popup {
+export default class Popup {
   constructor(popupSelector) {
-    this._popupSelector = popupSelector;
+    this._popup = document.querySelector(popupSelector);
   }
   open() {
-    document.querySelector(this._popupSelector).classList.add('popup_is-opened');
-    //  document.querySelector(this._popupSelector).addEventListener('click', closePopupOverlay);
-    document.addEventListener('keydown', () => {
-      this._handleEscClose();
-    });
+    this._popup.classList.add('popup_is-opened');
+    document.addEventListener('keydown', this._handleEscClose.bind(this));
+    this._setEventListeners();
   }
   close() {
-    document.querySelector(this._popupSelector).classList.remove('popup_is-opened');
-    // document.querySelector(this._popupSelector).removeEventListener('click', closePopupOverlay);
-    document.removeEventListener('keydown', () => {
-      this._handleEscClose();
-    });
+    this._popup.classList.remove('popup_is-opened');
+    document.removeEventListener('keydown', this._handleEscClose.bind(this));
   }
   _handleEscClose(evt) {
     if (evt.key === 'Escape') {
@@ -111,47 +118,58 @@ class Popup {
     }
   }
   _setEventListeners() {
-    document
-      .querySelector(this._popupSelector)
-      .querySelector('.popup__close')
-      .addEventListener('click', () => {
+    this._popup.querySelector('.popup__close').addEventListener('click', this.close.bind(this));
+    this._popup.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup')) {
         this.close();
-      });
+      }
+    });
   }
 }
 
-class PopupWithImage extends Popup {
-  constructor(popupSelector) {
+export class PopupWithImage extends Popup {
+  constructor(popupSelector, { link, name }) {
     super(popupSelector);
+    this._link = link;
+    this._name = name;
   }
   open() {
-    /*document.querySelector('.popup__photo').src = this._link;
-    document.querySelector('.popup__caption').textContent = this._name;*/
+    this._popup.querySelector('.popup__photo').src = this._link;
+    this._popup.querySelector('.popup__caption').textContent = this._name;
     super.open();
   }
 }
 
-class PopupWithForm extends Popup {
-  constructor(popupSelector, submitForm) {
+export class PopupWithForm extends Popup {
+  constructor(popupSelector, submitFormFunction) {
     super(popupSelector);
-    this._submitForm = submitForm;
+    this._submitForm = submitFormFunction;
+  }
+  _getInputValues() {
+    this._inputList = this._popup.querySelectorAll('.popup__input');
+    this._inputValues = {};
+    this._inputList.forEach((input) => {
+      this._inputValues[input.name] = input.value;
+    });
+    return this._inputValues;
   }
   _setEventListeners() {
     super._setEventListeners();
-    if (this._popupSelector === '.popup__form_edit-form') {
-      document.querySelector(this._popupSelector).addEventListener('submit', () => submitProfileForm);
-    } else if (this._popupSelector === '.popup_form_add-element') {
-      document.querySelector(this._popupSelector).addEventListener('submit', () => addElement);
-    }
+
+    this._popup.querySelector('.popup__form ').addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      this._submitForm();
+    });
   }
+
   close() {
     super.close();
-    document.querySelector(this._popupSelector).reset();
+    this._popup.querySelector('.popup__form ').reset();
   }
 }
 
-class UserInfo {
-  constructor(nameSelector, aboutSelector) {
+export class UserInfo {
+  constructor({ nameSelector, aboutSelector }) {
     this._nameSelector = nameSelector;
     this._aboutSelector = aboutSelector;
   }
@@ -160,13 +178,39 @@ class UserInfo {
     const aboutUser = document.querySelector(this._aboutSelector).textContent;
     return { name: nameUser, about: aboutUser };
   }
-  setUserInfo() {
-    document.querySelector(this._nameSelector).textContent = nameInput.value;
-    document.querySelector(this._aboutSelector).textContent = aboutInput.value;
+  setUserInfo({ name, about }) {
+    document.querySelector(this._nameSelector).textContent = name;
+    document.querySelector(this._aboutSelector).textContent = about;
     //close popup
   }
 }
-//Функция для заполнения полей редактирования профиля
+
+const user = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '.profile__about' });
+
+const editPopupForm = new PopupWithForm('.popup_form_edit', () => {
+  const inputs = editPopupForm._getInputValues();
+  user.setUserInfo({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about });
+  editPopupForm.close();
+});
+
+const addPopupForm = new PopupWithForm('.popup_form_add-element', () => {
+  const inputs = addPopupForm._getInputValues();
+  const newCard = { name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link };
+  const sectionNew = new Section(
+    {
+      items: [newCard],
+      renderer: (item) => {
+        const card = new Card(item, '.element-template');
+        const cardElement = card.generateCard();
+        sectionNew.addItem(cardElement);
+      },
+    },
+    '.elements'
+  );
+  sectionNew.renderItems();
+  addPopupForm.close();
+});
+/*//Функция для заполнения полей редактирования профиля
 const setInputsProfileForm = () => {
   nameInput.value = namePage.textContent;
   aboutInput.value = aboutPage.textContent;
@@ -188,25 +232,6 @@ const openProfileForm = () => {
   editFormDefaultState();
   openPopup(editPopup);
 };
-// Функция редактирования профиля, переопределяем submit для перезаписывания полей из инпутов на страницу
-const submitProfileForm = (evt) => {
-  evt.preventDefault();
-  namePage.textContent = nameInput.value;
-  aboutPage.textContent = aboutInput.value;
-  closePopup(editPopup);
-};
-// Функция добавления новой карточки в контейнер
-const addElement = (event) => {
-  event.preventDefault();
-  const newCard = [
-    {
-      name: nameAddInput.value,
-      link: linkAddInput.value,
-    },
-  ];
-  //Создаем экземпляр класса с одной новой карточкой
-  // const sectionNew = new Section({ items: newCard, renderer: createCard }, '.elements');
-  // sectionNew.addItem();
   //Очищаем поля ввода, восстанавливаем стандартные значения всем элементам формы
   addForm.reset();
   //делаем кнопку формы с невалидными полями неактивной
@@ -214,12 +239,11 @@ const addElement = (event) => {
   addFormSubmitButton.disabled = true;
   //вызов функции закрытия попапа
   closePopup(addPopup);
-};
+};*/
 // Вешаем слушатели событий для открытия/закрытия попапов и пересохранения данных, добавления новой карточки
-editButtonActive.addEventListener('click', openProfileForm);
-addButtonActive.addEventListener('click', () => openPopup(addPopup));
-editPopupCloseButton.addEventListener('click', () => closePopup(editPopup));
-addPopupCloseButton.addEventListener('click', () => closePopup(addPopup));
-imagePopupCloseButton.addEventListener('click', () => closePopup(imageForm));
-editForm.addEventListener('submit', submitProfileForm);
-addForm.addEventListener('submit', addElement);
+editButtonActive.addEventListener('click', () => {
+  nameInput.value = user.getUserInfo().name;
+  aboutInput.value = user.getUserInfo().about;
+  editPopupForm.open();
+});
+addButtonActive.addEventListener('click', () => addPopupForm.open());

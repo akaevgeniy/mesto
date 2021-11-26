@@ -1,11 +1,13 @@
 //импортируем функцию открытия попапа и константу попапа с рисунком
-import { openPopup, imageForm } from './utils.js';
+//import { openPopup, imageForm } from './utils.js';
 // Класс, создающий карточку
+import { PopupWithImage } from './index.js';
 export class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
   //Приватный метод, возвращающий новый узел с данными
   _getTemplate() {
@@ -41,9 +43,10 @@ export class Card {
     const deleteElementButton = this._element.querySelector('.element__delete');
     // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
     sectionElementPhoto.addEventListener('click', () => {
-      document.querySelector('.popup__photo').src = this._link;
-      document.querySelector('.popup__caption').textContent = this._name;
-      openPopup(imageForm);
+      const imageInfo = { link: this._link, name: this._name };
+      const popup = new PopupWithImage('.popup_form_image', imageInfo);
+
+      popup.open();
     });
     // Вешаем функцию на событие нажатия по кнопке лайка
     elementLikeButton.addEventListener('click', () => {
