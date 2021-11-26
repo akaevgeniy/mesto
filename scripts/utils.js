@@ -1,4 +1,3 @@
-export const imageForm = document.querySelector('.popup_form_image');
 // Функция для открытия модального окна, добавляем попапу класс и добавляем слушатели на закрытие по оверлею и Escape
 //экспортируем для использования в классе Card
 export const openPopup = (popup) => {

@@ -1,61 +1,19 @@
-//В массив добавляем 6 карточек с местами и ссылками на фото
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  },
-];
-//объект настроек с селекторами и классами формы для проверки валидности формы
-const settingsObject = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_invalid',
-  inputErrorClass: 'popup__input_state_invalid',
-  errorClass: 'popup__error_visible',
-};
-import { openPopup, imageForm, closePopup } from './utils.js';
-// Находим в DOM попап, формы, инпуты и кнопки редактирования, добавления новой карточки, закрытия формы
-//const elementContainer = document.querySelector('.elements');
-const editButtonActive = document.querySelector('.profile__edit-button');
-const addButtonActive = document.querySelector('.profile__add-button');
-const editPopup = document.querySelector('.popup_form_edit');
-const editPopupCloseButton = editPopup.querySelector('.popup__close');
-const editForm = document.querySelector('.popup__form_edit-form');
-const nameInput = editForm.querySelector('.popup__input_is_name');
-const aboutInput = editForm.querySelector('.popup__input_is_about');
-const editFormInputs = editForm.querySelectorAll('.popup__input');
-const editFormErrors = editForm.querySelectorAll('.popup__error');
-const editFormSubmitButton = editForm.querySelector('.popup__submit');
-const addPopup = document.querySelector('.popup_form_add-element');
-const addPopupCloseButton = addPopup.querySelector('.popup__close');
-const addForm = document.querySelector('.popup__form_add-form');
-const nameAddInput = addForm.querySelector('.popup__input_is_add-name');
-const linkAddInput = addForm.querySelector('.popup__input_is_add-link');
-const addFormSubmitButton = addForm.querySelector('.popup__submit');
-const imagePopupCloseButton = imageForm.querySelector('.popup__close');
-const namePage = document.querySelector('.profile__name');
-const aboutPage = document.querySelector('.profile__about');
+import {
+  initialCards,
+  settingsObject,
+  addForm,
+  editForm,
+  cardSelector,
+  containerSelector,
+  namePageSelector,
+  aboutPageSelector,
+  editPopupSelector,
+  addPopupSelector,
+  editButtonActive,
+  addButtonActive,
+  nameInput,
+  aboutInput,
+} from './constants.js';
 //импортируем класс FormValidator
 import { FormValidator } from './FormValidator.js';
 //создается отдельный экземпляр класса FormValidator для каждой формы
@@ -63,45 +21,47 @@ const validatorAddForm = new FormValidator(settingsObject, addForm);
 const validatorEditForm = new FormValidator(settingsObject, editForm);
 validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
-
 //импортируем класс Card
 import { Card } from './card.js';
+import { Section } from './Section.js';
+import { UserInfo } from './UserInfo.js';
+import { PopupWithForm } from './PopupWithForm.js';
 //Создаем экземпляры Card при помощи класса Section
 const CardList = new Section(
   {
     items: initialCards.reverse(),
     renderer: (item) => {
-      const card = new Card(item, '.element-template');
+      const card = new Card(item, cardSelector);
       const cardElement = card.generateCard();
       CardList.addItem(cardElement);
     },
   },
-  '.elements'
+  containerSelector
 );
 
 CardList.renderItems();
 
-const user = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '.profile__about' });
+const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 
-const editPopupForm = new PopupWithForm('.popup_form_edit', () => {
+const editPopupForm = new PopupWithForm(editPopupSelector, () => {
   const inputs = editPopupForm._getInputValues();
   user.setUserInfo({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about });
   editPopupForm.close();
 });
 
-const addPopupForm = new PopupWithForm('.popup_form_add-element', () => {
+const addPopupForm = new PopupWithForm(addPopupSelector, () => {
   const inputs = addPopupForm._getInputValues();
   const newCard = { name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link };
   const sectionNew = new Section(
     {
       items: [newCard],
       renderer: (item) => {
-        const card = new Card(item, '.element-template');
+        const card = new Card(item, cardSelector);
         const cardElement = card.generateCard();
         sectionNew.addItem(cardElement);
       },
     },
-    '.elements'
+    containerSelector
   );
   sectionNew.renderItems();
   addPopupForm.close();

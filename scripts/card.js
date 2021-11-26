@@ -1,7 +1,7 @@
 //импортируем функцию открытия попапа и константу попапа с рисунком
 //import { openPopup, imageForm } from './utils.js';
 // Класс, создающий карточку
-import { PopupWithImage } from './index.js';
+import { PopupWithImage } from './PopupWithImage.js';
 export class Card {
   constructor(data, cardSelector, handleCardClick) {
     this._name = data.name;
