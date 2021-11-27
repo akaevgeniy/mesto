@@ -14,7 +14,7 @@ export class PopupWithForm extends Popup {
     });
     return this._inputValues;
   }
-  //переопределяем методы родительского класса
+  //переопределяем методы родительского класса, вешаем коллбэк на сабмит
   setEventListeners() {
     super.setEventListeners();
     this._popup.querySelector('.popup__form').addEventListener('submit', (evt) => {
