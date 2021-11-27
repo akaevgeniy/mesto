@@ -13,7 +13,7 @@ import {
   addButtonActive,
   nameInput,
   aboutInput,
-} from './constants.js';
+} from './utils/constants.js';
 //импортируем класс FormValidator
 import { FormValidator } from './FormValidator.js';
 //создается отдельный экземпляр класса FormValidator для каждой формы
@@ -48,30 +48,20 @@ CardList.renderItems();
 
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 
-const editPopupForm = new PopupWithForm(editPopupSelector, () => {
-  const inputs = editPopupForm._getInputValues();
+const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
   user.setUserInfo({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about });
   editPopupForm.close();
 });
 
-const addPopupForm = new PopupWithForm(addPopupSelector, () => {
-  const inputs = addPopupForm._getInputValues();
+const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
   const newCard = { name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link };
-  const sectionNew = new Section(
-    {
-      items: [newCard],
-      renderer: (item) => {
-        const card = new Card(item, cardSelector, (imageFormSelector, imageInfo) => {
-          const popup = new PopupWithImage(imageFormSelector, imageInfo);
-          popup.open();
-        });
-        const cardElement = card.generateCard();
-        sectionNew.addItem(cardElement);
-      },
-    },
-    containerSelector
-  );
-  sectionNew.renderItems();
+  const card = new Card(newCard, cardSelector, (imageFormSelector, imageInfo) => {
+    const popup = new PopupWithImage(imageFormSelector, imageInfo);
+    popup.open();
+  });
+  const cardElement = card.generateCard();
+  CardList.addItem(cardElement);
+
   addPopupForm.close();
 });
 /*//Функция для заполнения полей редактирования профиля
@@ -109,5 +99,9 @@ editButtonActive.addEventListener('click', () => {
   nameInput.value = user.getUserInfo().name;
   aboutInput.value = user.getUserInfo().about;
   editPopupForm.open();
+  validatorEditForm.enableValidation();
 });
-addButtonActive.addEventListener('click', () => addPopupForm.open());
+addButtonActive.addEventListener('click', () => {
+  addPopupForm.open();
+  validatorAddForm.enableValidation();
+});
