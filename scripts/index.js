@@ -54,11 +54,14 @@ const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
 });
 
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
-  const newCard = { name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link };
-  const card = new Card(newCard, cardSelector, (imageFormSelector, imageInfo) => {
-    const popup = new PopupWithImage(imageFormSelector, imageInfo);
-    popup.open();
-  });
+  const card = new Card(
+    { name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link },
+    cardSelector,
+    (imageFormSelector, imageInfo) => {
+      const popup = new PopupWithImage(imageFormSelector, imageInfo);
+      popup.open();
+    }
+  );
   const cardElement = card.generateCard();
   CardList.addItem(cardElement);
 
