@@ -44,9 +44,7 @@ export class Card {
     // Вешаем функцию на событие нажатия по фотографии для открытия попапа с картинкой
     sectionElementPhoto.addEventListener('click', () => {
       const imageInfo = { link: this._link, name: this._name };
-
       this._handleCardClick(imageFormSelector, imageInfo);
-      //popup.open();
     });
     // Вешаем функцию на событие нажатия по кнопке лайка
     elementLikeButton.addEventListener('click', () => {

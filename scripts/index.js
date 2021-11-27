@@ -1,3 +1,4 @@
+//импортируем константы
 import {
   initialCards,
   settingsObject,
@@ -45,14 +46,14 @@ const CardList = new Section(
 );
 
 CardList.renderItems();
-
+// создается экземпляр класса с информацией о пользователе
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
-
+//создаем экземпляр класса формы редактирования данных
 const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
   user.setUserInfo({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about });
   editPopupForm.close();
 });
-
+//создаем экземпляр класса формы добавления новой карточки
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
   const card = new Card(
     { name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link },
@@ -64,40 +65,9 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
   );
   const cardElement = card.generateCard();
   CardList.addItem(cardElement);
-
   addPopupForm.close();
 });
-/*//Функция для заполнения полей редактирования профиля
-const setInputsProfileForm = () => {
-  nameInput.value = namePage.textContent;
-  aboutInput.value = aboutPage.textContent;
-};
-//Функция для задания у формы редактирования профиля изначальных значений инпутов, спанов с ошибками и состояния кнопки
-const editFormDefaultState = () => {
-  editFormSubmitButton.classList.remove('popup__submit_invalid');
-  editFormSubmitButton.disabled = false;
-  editFormInputs.forEach((formInput) => {
-    formInput.classList.remove('popup__input_state_invalid');
-  });
-  editFormErrors.forEach((formError) => {
-    formError.textContent = '';
-  });
-};
-// Функция для записи в инпуты формы данных о пользователе со страницы при открытии окна, вызывается функция для задания стандартных значений
-const openProfileForm = () => {
-  setInputsProfileForm();
-  editFormDefaultState();
-  openPopup(editPopup);
-};
-  //Очищаем поля ввода, восстанавливаем стандартные значения всем элементам формы
-  addForm.reset();
-  //делаем кнопку формы с невалидными полями неактивной
-  addFormSubmitButton.classList.add('popup__submit_invalid');
-  addFormSubmitButton.disabled = true;
-  //вызов функции закрытия попапа
-  closePopup(addPopup);
-};*/
-// Вешаем слушатели событий для открытия/закрытия попапов и пересохранения данных, добавления новой карточки
+// Вешаем слушатели событий для открытия попапов с формами
 editButtonActive.addEventListener('click', () => {
   nameInput.value = user.getUserInfo().name;
   aboutInput.value = user.getUserInfo().about;

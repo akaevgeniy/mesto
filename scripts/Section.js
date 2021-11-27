@@ -1,3 +1,4 @@
+//Создаем класс Section, который отвечает за отрисовку элементов на странице
 export class Section {
   constructor({ items, renderer }, containerSelector) {
     this._items = items;
