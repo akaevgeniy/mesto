@@ -14,16 +14,16 @@ import {
   addButtonActive,
   nameInput,
   aboutInput,
-} from './utils/constants.js';
+} from '../utils/constants.js';
 //импортируем класс FormValidator
-import { FormValidator } from './FormValidator.js';
+import { FormValidator } from '../components/FormValidator.js';
 //создается отдельный экземпляр класса FormValidator для каждой формы
 //импортируем класс Card
-import { Card } from './card.js';
-import { Section } from './Section.js';
-import { UserInfo } from './UserInfo.js';
-import { PopupWithForm } from './PopupWithForm.js';
-import { PopupWithImage } from './PopupWithImage.js';
+import { Card } from '../components/card.js';
+import { Section } from '../components/Section.js';
+import { UserInfo } from '../components/UserInfo.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
 const validatorAddForm = new FormValidator(settingsObject, addForm);
 const validatorEditForm = new FormValidator(settingsObject, editForm);
 validatorAddForm.enableValidation();
