@@ -24,6 +24,7 @@ export class PopupWithForm extends Popup {
   }
   close() {
     super.close();
+    //сбрасываем значения формы при закрытии
     this._popup.querySelector('.popup__form').reset();
   }
 }

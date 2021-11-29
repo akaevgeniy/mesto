@@ -73,9 +73,11 @@ editButtonActive.addEventListener('click', () => {
   nameInput.value = user.getUserInfo().name;
   aboutInput.value = user.getUserInfo().about;
   editPopupForm.open();
+  //включаем валидацию формы
   validatorEditForm.enableValidation();
 });
 addButtonActive.addEventListener('click', () => {
   addPopupForm.open();
+  //включаем валидацию формы
   validatorAddForm.enableValidation();
 });
