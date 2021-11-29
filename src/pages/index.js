@@ -15,6 +15,7 @@ import {
   addButtonActive,
   nameInput,
   aboutInput,
+  imageFormSelector,
 } from '../utils/constants.js';
 //импортируем класс FormValidator
 import { FormValidator } from '../components/FormValidator.js';
@@ -35,7 +36,7 @@ const CardList = new Section(
   {
     items: initialCards.reverse(),
     renderer: (item) => {
-      const card = new Card(item, cardSelector, (imageFormSelector, imageInfo) => {
+      const card = new Card(item, cardSelector, (imageInfo) => {
         const popup = new PopupWithImage(imageFormSelector, imageInfo);
         popup.open();
       });
@@ -56,14 +57,10 @@ const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
 });
 //создаем экземпляр класса формы добавления новой карточки
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
-  const card = new Card(
-    { name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link },
-    cardSelector,
-    (imageFormSelector, imageInfo) => {
-      const popup = new PopupWithImage(imageFormSelector, imageInfo);
-      popup.open();
-    }
-  );
+  const card = new Card({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }, cardSelector, (imageInfo) => {
+    const popup = new PopupWithImage(imageFormSelector, imageInfo);
+    popup.open();
+  });
   const cardElement = card.generateCard();
   CardList.addItem(cardElement);
   addPopupForm.close();
