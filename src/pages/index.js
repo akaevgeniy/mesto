@@ -48,7 +48,7 @@ const cardList = new Section(
   },
   containerSelector
 );
-
+//рендерим карточки в контейнер
 cardList.renderItems();
 // создается экземпляр класса с информацией о пользователе
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
