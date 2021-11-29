@@ -31,7 +31,7 @@ const validatorEditForm = new FormValidator(settingsObject, editForm);
 validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
 //функция для создания экземпляра  карточки
-const creteCard = function ({ name, link }) {
+const createCard = function ({ name, link }) {
   const card = new Card({ name, link }, cardSelector, (imageInfo) => {
     const popup = new PopupWithImage(imageFormSelector, imageInfo);
     popup.open();
@@ -43,7 +43,7 @@ const cardList = new Section(
   {
     items: initialCards.reverse(),
     renderer: (item) => {
-      cardList.addItem(creteCard(item));
+      cardList.addItem(createCard(item));
     },
   },
   containerSelector
@@ -59,7 +59,7 @@ const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
 });
 //создаем экземпляр класса формы добавления новой карточки
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
-  cardList.addItem(creteCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }));
+  cardList.addItem(createCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }));
   addPopupForm.close();
 });
 // Вешаем слушатели событий для открытия попапов с формами
