@@ -5,11 +5,15 @@ export class PopupWithImage extends Popup {
     super(popupSelector);
     this._link = link;
     this._name = name;
+    this._alt = name;
+    this._photo = this._popup.querySelector('.popup__photo');
+    this._caption = this._popup.querySelector('.popup__caption');
   }
   //переопределяем метод родительского класса
   open() {
-    this._popup.querySelector('.popup__photo').src = this._link;
-    this._popup.querySelector('.popup__caption').textContent = this._name;
+    this._photo.src = this._link;
+    this._photo.alt = this._alt;
+    this._caption.textContent = this._name;
     super.open();
   }
 }
