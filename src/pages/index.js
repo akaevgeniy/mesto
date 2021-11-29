@@ -32,7 +32,7 @@ validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
 
 //Создаем экземпляры Card при помощи класса Section
-const CardList = new Section(
+const cardList = new Section(
   {
     items: initialCards.reverse(),
     renderer: (item) => {
@@ -41,13 +41,13 @@ const CardList = new Section(
         popup.open();
       });
       const cardElement = card.generateCard();
-      CardList.addItem(cardElement);
+      cardList.addItem(cardElement);
     },
   },
   containerSelector
 );
 
-CardList.renderItems();
+cardList.renderItems();
 // создается экземпляр класса с информацией о пользователе
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
@@ -62,7 +62,7 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
     popup.open();
   });
   const cardElement = card.generateCard();
-  CardList.addItem(cardElement);
+  cardList.addItem(cardElement);
   addPopupForm.close();
 });
 // Вешаем слушатели событий для открытия попапов с формами
