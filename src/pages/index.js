@@ -20,7 +20,7 @@ import {
 import { FormValidator } from '../components/FormValidator.js';
 //создается отдельный экземпляр класса FormValidator для каждой формы
 //импортируем класс Card
-import { Card } from '../components/card.js';
+import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
@@ -70,8 +70,8 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
 });
 // Вешаем слушатели событий для открытия попапов с формами
 editButtonActive.addEventListener('click', () => {
-  nameInput.value = user.getUserInfo().name;
-  aboutInput.value = user.getUserInfo().about;
+  nameInput.value = user.getUserInfo().userName;
+  aboutInput.value = user.getUserInfo().userDescription;
   editPopupForm.open();
   //включаем валидацию формы
   validatorEditForm.enableValidation();

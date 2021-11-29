@@ -6,9 +6,10 @@ export class UserInfo {
   }
   //в методе возвращаем объект с данными пользователя
   getUserInfo() {
-    const nameUser = document.querySelector(this._nameSelector).textContent;
-    const aboutUser = document.querySelector(this._aboutSelector).textContent;
-    return { name: nameUser, about: aboutUser };
+    return {
+      userName: document.querySelector(this._nameSelector).textContent,
+      userDescription: document.querySelector(this._aboutSelector).textContent,
+    };
   }
   //метод setUserInfo принимает новые данные пользователя и добавляет их на страницу
   setUserInfo({ name, about }) {
