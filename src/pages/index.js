@@ -16,6 +16,7 @@ import {
   nameInput,
   aboutInput,
   imageFormSelector,
+  confirmPopupSelector,
 } from '../utils/constants.js';
 //импортируем класс FormValidator
 import { FormValidator } from '../components/FormValidator.js';
@@ -62,6 +63,7 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
   cardList.addItem(createCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }));
   addPopupForm.close();
 });
+// const confPopupForm = new PopupWithForm(confirmPopupSelector);
 // Вешаем слушатели событий для открытия попапов с формами
 editButtonActive.addEventListener('click', () => {
   nameInput.value = user.getUserInfo().userName;

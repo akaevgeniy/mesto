@@ -48,3 +48,4 @@ export const namePageSelector = '.profile__name';
 export const aboutPageSelector = '.profile__about';
 export const cardSelector = '.element-template';
 export const containerSelector = '.elements';
+export const confirmPopupSelector = '.popup_form_confirm';
