@@ -17,6 +17,10 @@ import {
   aboutInput,
   imageFormSelector,
   confirmPopupSelector,
+  avatarPopupSelector,
+  avatarUpdateActive,
+  profileAvatar,
+  avatarForm,
 } from '../utils/constants.js';
 //импортируем класс FormValidator
 import { FormValidator } from '../components/FormValidator.js';
@@ -29,8 +33,10 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 const validatorAddForm = new FormValidator(settingsObject, addForm);
 const validatorEditForm = new FormValidator(settingsObject, editForm);
+const validatorAvatarForm = new FormValidator(settingsObject, avatarForm);
 validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
+validatorAvatarForm.enableValidation();
 //функция для создания экземпляра  карточки
 const createCard = function ({ name, link }) {
   const card = new Card({ name, link }, cardSelector, (imageInfo) => {
@@ -76,4 +82,12 @@ addButtonActive.addEventListener('click', () => {
   addPopupForm.open();
   //включаем валидацию формы
   validatorAddForm.enableValidation();
+});
+avatarUpdateActive.addEventListener('click', () => {
+  const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
+    profileAvatar.src = input.popup__input_is_avatar_link;
+    avatarPopupForm.close();
+  });
+  avatarPopupForm.open();
+  validatorAvatarForm.enableValidation();
 });

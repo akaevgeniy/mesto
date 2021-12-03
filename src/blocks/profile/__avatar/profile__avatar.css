@@ -10,10 +10,11 @@
   cursor: pointer;
 }
 .profile__avatar:hover {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 .profile__avatar:hover + .profile__avatar-icon {
-  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 @media screen and (max-width: 767px) {
   .profile__avatar {
