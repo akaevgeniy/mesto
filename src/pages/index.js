@@ -41,6 +41,7 @@ validatorAvatarForm.enableValidation();
 const createCard = function ({ name, link }) {
   const card = new Card({ name, link }, cardSelector, (imageInfo) => {
     const popup = new PopupWithImage(imageFormSelector, imageInfo);
+    popup.setEventListeners();
     popup.open();
   });
   return card.generateCard();
@@ -62,13 +63,19 @@ const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: about
 //создаем экземпляр класса формы редактирования данных
 const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
   user.setUserInfo({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about });
-  editPopupForm.close();
 });
+//вызываем метод, вешающий слушатели событий формы
+editPopupForm.setEventListeners();
 //создаем экземпляр класса формы добавления новой карточки
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
   cardList.addItem(createCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }));
-  addPopupForm.close();
 });
+addPopupForm.setEventListeners();
+//создаем экземпляр класса формы изменения аватара
+const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
+  profileAvatar.src = input.popup__input_is_avatar_link;
+});
+avatarPopupForm.setEventListeners();
 // const confPopupForm = new PopupWithForm(confirmPopupSelector);
 // Вешаем слушатели событий для открытия попапов с формами
 editButtonActive.addEventListener('click', () => {
@@ -83,11 +90,8 @@ addButtonActive.addEventListener('click', () => {
   //включаем валидацию формы
   validatorAddForm.enableValidation();
 });
+//открываем попап для редактирования аватара пользователя
 avatarUpdateActive.addEventListener('click', () => {
-  const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
-    profileAvatar.src = input.popup__input_is_avatar_link;
-    avatarPopupForm.close();
-  });
   avatarPopupForm.open();
   validatorAvatarForm.enableValidation();
 });
