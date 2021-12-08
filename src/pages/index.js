@@ -22,6 +22,22 @@ import {
   profileAvatar,
   avatarForm,
 } from '../utils/constants.js';
+// импортируем класс для работы с Api
+import { api } from '../components/Api';
+api
+  .getInitialCards()
+  .then((result) => {
+    return result.reverse();
+  })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
+//Загружаем информацию о пользователе с сервера
+api.getUserProfile().then((result) => {
+  profileAvatar.src = result.avatar;
+  document.querySelector(namePageSelector).textContent = result.name;
+  document.querySelector(aboutPageSelector).textContent = result.about;
+});
 //импортируем класс FormValidator
 import { FormValidator } from '../components/FormValidator.js';
 //создается отдельный экземпляр класса FormValidator для каждой формы
@@ -61,8 +77,10 @@ cardList.renderItems();
 // создается экземпляр класса с информацией о пользователе
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
+//api.updateUserProfile('Евгений Сергеев', 'Турист на минималках');
 const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
   user.setUserInfo({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about });
+  api.updateUserProfile(inputs.popup__input_is_name, inputs.popup__input_is_about);
 });
 //вызываем метод, вешающий слушатели событий формы
 editPopupForm.setEventListeners();
@@ -74,6 +92,7 @@ addPopupForm.setEventListeners();
 //создаем экземпляр класса формы изменения аватара
 const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
   profileAvatar.src = input.popup__input_is_avatar_link;
+  api.updateAvatar(input.popup__input_is_avatar_link);
 });
 avatarPopupForm.setEventListeners();
 // const confPopupForm = new PopupWithForm(confirmPopupSelector);
