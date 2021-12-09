@@ -24,14 +24,6 @@ import {
 } from '../utils/constants.js';
 // импортируем класс для работы с Api
 import { api } from '../components/Api';
-api
-  .getInitialCards()
-  .then((result) => {
-    return result.reverse();
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
 //Загружаем информацию о пользователе с сервера
 api.getUserProfile().then((result) => {
   profileAvatar.src = result.avatar;
@@ -63,17 +55,33 @@ const createCard = function ({ name, link }) {
   return card.generateCard();
 };
 //Создаем экземпляры Card при помощи класса Section
-const cardList = new Section(
-  {
-    items: initialCards.reverse(),
-    renderer: (item) => {
-      cardList.addItem(createCard(item));
-    },
-  },
-  containerSelector
-);
-//рендерим карточки в контейнер
-cardList.renderItems();
+api
+  .getInitialCards()
+  .then((result) => {
+    return result.reverse();
+  })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
+api
+  .getInitialCards()
+  .then((result) => {
+    const cardList = new Section(
+      {
+        items: result.reverse(),
+        renderer: (item) => {
+          cardList.addItem(createCard(item));
+        },
+      },
+      containerSelector
+    );
+    //рендерим карточки в контейнер
+    cardList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
+
 // создается экземпляр класса с информацией о пользователе
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
