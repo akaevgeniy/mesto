@@ -42,6 +42,12 @@ class Api {
         name: name,
         about: about,
       }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
   updateAvatar(url) {
@@ -54,6 +60,31 @@ class Api {
       body: JSON.stringify({
         avatar: url,
       }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  addNewCard({ name, link }) {
+    fetch(`${this._baseUrl}/cards`, {
+      method: 'POST',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': this._content_type,
+      },
+      body: JSON.stringify({
+        name: name,
+        link: link,
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 }
