@@ -87,8 +87,8 @@ const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
 editPopupForm.setEventListeners();
 //создаем экземпляр класса формы добавления новой карточки
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
-  cardList.addItem(createCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }));
-  //api.addNewCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }).then((result) => console.log(result));
+  api.addNewCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link });
+  // cardList.addItem(createCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link }));
 });
 addPopupForm.setEventListeners();
 //создаем экземпляр класса формы изменения аватара

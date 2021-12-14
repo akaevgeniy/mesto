@@ -30,6 +30,7 @@ export class Card {
   }
   // Публичный метод для удаления элемента
   setDeleteElementButton() {
+    console.log(this._element);
     this._element.remove();
     this._element = null;
   }

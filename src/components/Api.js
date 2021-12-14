@@ -76,9 +76,24 @@ class Api {
         'Content-Type': this._content_type,
       },
       body: JSON.stringify({
-        name: name,
-        link: link,
+        name,
+        link,
       }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  deleteCard({ id }) {
+    fetch(`${this._baseUrl}/cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': this._content_type,
+      },
     }).then((res) => {
       if (res.ok) {
         return res.json();
