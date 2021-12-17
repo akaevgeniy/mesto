@@ -1,10 +1,15 @@
 // Класс, создающий карточку
 export class Card {
-  constructor(data, cardSelector, handleCardClick) {
+  constructor({ data, handleCardClick, handleLikeClick, handleDeleteIconClick }, cardSelector) {
     this._name = data.name;
     this._link = data.link;
+    this._likes = data.likes;
+    this._id = data._id;
+    this._owner = data.owner;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handleLikeClick = handleLikeClick;
+    this._handleDeleteIconClick = handleDeleteIconClick;
   }
   //Приватный метод, возвращающий новый узел с данными
   _getTemplate() {
@@ -26,13 +31,23 @@ export class Card {
   }
   // Публичный метод для установки лайка
   setLikeButton() {
+    this._handleLikeClick(this._id);
     this._element.querySelector('.element__like').classList.toggle('element__like_active');
   }
   // Публичный метод для удаления элемента
   setDeleteElementButton() {
-    console.log(this._element);
-    this._element.remove();
-    this._element = null;
+    this._handleDeleteIconClick(this._id);
+    // this._element.remove();
+    // this._element = null;
+  }
+  //публичный метод, добавляющий количество лайков из сервера в разметку
+  initialLikeCount() {
+    this._element.querySelector('.element__like-count').textContent = this._likes.length;
+  }
+  _deleteButtonHidden() {
+    if (this._owner._id != 'a836f126de8651dc281b558d') {
+      this._element.querySelector('.element__delete').classList.add('element__delete_is-hidden');
+    }
   }
   // Приватный метод, устанавливающий слушатели событий
   _setEventListeners() {
@@ -52,5 +67,8 @@ export class Card {
     deleteElementButton.addEventListener('click', () => {
       this.setDeleteElementButton();
     });
+    //отображаем количество лайков
+    this.initialLikeCount();
+    this._deleteButtonHidden();
   }
 }

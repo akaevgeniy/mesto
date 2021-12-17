@@ -31,8 +31,8 @@ class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
-  updateUserProfile(name, about) {
-    fetch(`${this._baseUrl}/users/me`, {
+  updateUserProfile({ name, about }) {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._authorization,
@@ -51,7 +51,7 @@ class Api {
     });
   }
   updateAvatar(url) {
-    fetch(`${this._baseUrl}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         authorization: this._authorization,
@@ -69,7 +69,7 @@ class Api {
     });
   }
   addNewCard({ name, link }) {
-    fetch(`${this._baseUrl}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
         authorization: this._authorization,
@@ -87,8 +87,40 @@ class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
-  deleteCard({ id }) {
-    fetch(`${this._baseUrl}/cards/${id}`, {
+  deleteCard(id) {
+    return fetch(`${this._baseUrl}/cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': this._content_type,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  //
+  setLike(id) {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': this._content_type,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  //
+  deleteLike(id) {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'DELETE',
       headers: {
         authorization: this._authorization,
@@ -103,7 +135,6 @@ class Api {
     });
   }
 }
-// другие методы работы с API
 
 export const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-31',
