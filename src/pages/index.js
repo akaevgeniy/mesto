@@ -48,11 +48,22 @@ const parseError = (err) => {
 //Создаем экземпляр попапа с картинкой и активируем листенеры
 const imagePopop = new PopupWithImage(imageFormSelector);
 imagePopop.setEventListeners();
+//Создаем экземпляр попапа подтверждения удаления и активируем листенеры
+const submitPopup = new PopupWithSubmit(confirmPopupSelector, (id) => {
+  api
+    .deleteCard(id)
+    .then((result) => {
+      console.log(result);
+      submitPopup.setCard().removeCard();
+    })
+    .catch((err) => parseError(err));
+});
+submitPopup.setEventListeners();
 //функция для создания экземпляра  карточки, принимает все необходимые колбэки
 const createCard = function (data) {
   const card = new Card(
     {
-      data,
+      data: data,
       handleCardClick: (imageInfo) => {
         imagePopop.open(imageInfo);
       },
@@ -76,21 +87,7 @@ const createCard = function (data) {
         }
       },
       handleDeleteIconClick: (id) => {
-        const popup = new PopupWithSubmit(
-          confirmPopupSelector,
-          (id) => {
-            api
-              .deleteCard(id)
-              .then((result) => {
-                console.log(result);
-                card.removeCard();
-              })
-              .catch((err) => parseError(err));
-          },
-          id
-        );
-        popup.setEventListeners();
-        popup.open();
+        submitPopup.open(id, card);
       },
     },
     cardSelector
