@@ -1,7 +1,6 @@
 import './index.css';
 //импортируем константы
 import {
-  initialCards,
   settingsObject,
   addForm,
   editForm,
