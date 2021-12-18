@@ -119,7 +119,7 @@ api
   });
 
 // создается экземпляр класса с информацией о пользователе
-const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector }, api);
+const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
 const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
   api
