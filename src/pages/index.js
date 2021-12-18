@@ -51,9 +51,9 @@ const createCard = function (data) {
     {
       data,
       handleCardClick: (imageInfo) => {
-        const popup = new PopupWithImage(imageFormSelector, imageInfo);
+        const popup = new PopupWithImage(imageFormSelector);
         popup.setEventListeners();
-        popup.open();
+        popup.open(imageInfo);
       },
       handleLikeClick: (confirm) => {
         if (confirm) {
