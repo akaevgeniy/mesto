@@ -104,40 +104,32 @@ function renderLoading(isLoading, popupSelector, { preload, load }) {
     document.querySelector(popupSelector).querySelector('.popup__submit').value = load;
   }
 }
-//Загружаем информацию о пользователе с сервера, вызываем запросы с Api
-api
-  .getUserProfile()
-  .then((result) => {
-    profileAvatar.src = result.avatar;
-    document.querySelector(namePageSelector).textContent = result.name;
-    document.querySelector(aboutPageSelector).textContent = result.about;
+// создается экземпляр класса с информацией о пользователе
+const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector, userAvatar: profileAvatar });
+//Создаем экземпляр класса Section для отрисовки карточек на странице
+const cardList = new Section(
+  {
+    renderer: (item) => {
+      cardList.addItem(createCard(item));
+    },
+  },
+  containerSelector
+);
+//Загружаем информацию о пользователе с сервера и создаем экземпляры Card, объединенно вызываем запросы с Api
+Promise.all([api.getUserProfile(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    user.setUserInfo({ name: userData.name, about: userData.about, avatar: userData.avatar, _id: userData._id });
+    //рендерим карточки в контейнер
+    cardList.renderItems(cards.reverse());
   })
   .catch((err) => parseError(err));
-//Создаем экземпляры Card при помощи класса Section, вызываем запросы с Api
-api
-  .getInitialCards()
-  .then((result) => {
-    const cardList = new Section(
-      {
-        renderer: (item) => {
-          cardList.addItem(createCard(item));
-        },
-      },
-      containerSelector
-    );
-    //рендерим карточки в контейнер
-    cardList.renderItems(result);
-  })
-  .catch((err) => parseError(err)); // выведем ошибку в консоль
-// создается экземпляр класса с информацией о пользователе
-const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
 const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
   renderLoading(true, editPopupSelector, preloadSave);
   api
     .updateUserProfile({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about })
     .then((result) => {
-      user.setUserInfo({ name: result.name, about: result.about });
+      user.setUserInfo({ name: result.name, about: result.about, avatar: result.avatar, _id: result._id });
     })
     .catch((err) => parseError(err))
     .finally(() => {
@@ -152,14 +144,6 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
   api
     .addNewCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link })
     .then((result) => {
-      const cardList = new Section(
-        {
-          renderer: (item) => {
-            cardList.addItem(createCard(item));
-          },
-        },
-        containerSelector
-      );
       //рендерим карточки в контейнер
       cardList.renderItems([result]);
     })
@@ -175,7 +159,7 @@ const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
   api
     .updateAvatar(input.popup__input_is_avatar_link)
     .then((result) => {
-      profileAvatar.src = result.avatar;
+      user.setUserInfo({ name: result.name, about: result.about, avatar: result.avatar, _id: result._id });
     })
     .catch((err) => parseError(err))
     .finally(() => {
