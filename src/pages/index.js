@@ -119,7 +119,6 @@ api
   .then((result) => {
     const cardList = new Section(
       {
-        items: result.reverse(),
         renderer: (item) => {
           cardList.addItem(createCard(item));
         },
@@ -127,7 +126,7 @@ api
       containerSelector
     );
     //рендерим карточки в контейнер
-    cardList.renderItems();
+    cardList.renderItems(result);
   })
   .catch((err) => parseError(err)); // выведем ошибку в консоль
 // создается экземпляр класса с информацией о пользователе
@@ -155,7 +154,6 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
     .then((result) => {
       const cardList = new Section(
         {
-          items: [result],
           renderer: (item) => {
             cardList.addItem(createCard(item));
           },
@@ -163,7 +161,7 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
         containerSelector
       );
       //рендерим карточки в контейнер
-      cardList.renderItems();
+      cardList.renderItems([result]);
     })
     .catch((err) => parseError(err))
     .finally(() => {
