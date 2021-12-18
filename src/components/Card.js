@@ -32,7 +32,7 @@ export class Card {
   // Публичный метод для установки лайка
   setLikeButton() {
     this._handleLikeClick(this._id);
-    this._element.querySelector('.element__like').classList.toggle('element__like_active');
+    /* this._element.querySelector('.element__like').classList.toggle('element__like_active');*/
   }
   // Публичный метод для удаления элемента
   setDeleteElementButton() {
@@ -42,10 +42,20 @@ export class Card {
     this._element.remove();
     this._element = null;
   }
-
+  /*setLike() {
+    this._element.querySelector('.element__like').classList.add('element__like_active');
+  }*/
   //публичный метод, добавляющий количество лайков из сервера в разметку
   initialLikeCount() {
     this._element.querySelector('.element__like-count').textContent = this._likes.length;
+    this._likes.forEach((element) => {
+      if (Object.values(element).includes('a836f126de8651dc281b558d')) {
+        this._element.querySelector('.element__like').classList.add('element__like_active');
+      }
+    });
+    /*if (Object.values(this._likes).includes('a836f126de8651dc281b558d')) {
+      this._element.querySelector('.element__like').classList.add('element__like_active');
+    }*/
   }
   _deleteButtonHidden() {
     if (this._owner._id != 'a836f126de8651dc281b558d') {

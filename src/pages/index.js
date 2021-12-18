@@ -59,17 +59,7 @@ const createCard = function (data) {
         popup.open();
       },
       handleLikeClick: (id) => {
-        api
-          .setLike(id)
-          .then(() => {
-            card.initialLikeCount();
-          })
-          .catch((err) => console.log(err));
-        /*if (data.owner._id === 'a836f126de8651dc281b558d') {
-          api.deleteLike(id);
-        } else {
-          api.setLike(id);
-        }*/
+        /* .catch((err) => console.log(err));*/
       },
       handleDeleteIconClick: (id) => {
         const popup = new PopupWithSubmit(
