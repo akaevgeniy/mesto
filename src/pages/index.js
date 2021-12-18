@@ -60,16 +60,17 @@ const createCard = function (data) {
         popup.open();
       },
       handleLikeClick: (id) => {
-        //api.setLike(id);
+        api
+          .setLike(id)
+          .then(() => {
+            card.initialLikeCount();
+          })
+          .catch((err) => console.log(err));
         /*if (data.owner._id === 'a836f126de8651dc281b558d') {
           api.deleteLike(id);
         } else {
           api.setLike(id);
         }*/
-        /*.then((result) => {
-            console.log(result);
-          })
-          .catch((err) => console.log(err));*/
       },
       handleDeleteIconClick: (id) => {
         const popup = new PopupWithSubmit(
@@ -79,6 +80,7 @@ const createCard = function (data) {
               .deleteCard(id)
               .then((result) => {
                 console.log(result);
+                card.removeCard();
               })
               .catch((err) => console.log(err));
           },
@@ -86,17 +88,20 @@ const createCard = function (data) {
         );
         popup.setEventListeners();
         popup.open();
-        //api.deleteCard(id);
-        /*.then((result) => {
-            console.log(result);
-          })
-          .catch((err) => console.log(err));*/
       },
     },
     cardSelector
   );
   return card.generateCard();
 };
+//функция для изменения текста при прелоад
+function renderLoading(isLoading, popupSelector) {
+  if (isLoading) {
+    document.querySelector(popupSelector).querySelector('.popup__submit').value = 'Сохранение...';
+  } else if (!isLoading) {
+    document.querySelector(popupSelector).querySelector('.popup__submit').value = 'Сохранить';
+  }
+}
 //Создаем экземпляры Card при помощи класса Section
 api
   .getInitialCards()
@@ -122,37 +127,57 @@ api
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
 const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
+  renderLoading(true, editPopupSelector);
   api
     .updateUserProfile({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about })
     .then((result) => {
       user.setUserInfo({ name: result.name, about: result.about });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(false, editPopupSelector);
+    });
 });
 //вызываем метод, вешающий слушатели событий формы
 editPopupForm.setEventListeners();
 //создаем экземпляр класса формы добавления новой карточки
-/*.then((result) => {
-  console.log(result);
-})*/
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
+  renderLoading(true, addPopupSelector);
   api
     .addNewCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link })
     .then((result) => {
-      console.log(result);
-      //  cardList.addItem(createCard({ name: result.name, link: result.link }));
+      const cardList = new Section(
+        {
+          items: [result],
+          renderer: (item) => {
+            cardList.addItem(createCard(item));
+          },
+        },
+        containerSelector
+      );
+      //рендерим карточки в контейнер
+      cardList.renderItems();
     })
-    .catch((err) => console.log(err));
+    //  cardList.addItem(createCard({ name: result.name, link: result.link }));
+
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(false, addPopupSelector);
+    });
 });
 addPopupForm.setEventListeners();
 //создаем экземпляр класса формы изменения аватара
 const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
+  renderLoading(true, avatarPopupSelector);
   api
     .updateAvatar(input.popup__input_is_avatar_link)
     .then((result) => {
       profileAvatar.src = result.avatar;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(false, avatarPopupSelector);
+    });
 });
 avatarPopupForm.setEventListeners();
 // const confPopupForm = new PopupWithForm(confirmPopupSelector);

@@ -37,9 +37,12 @@ export class Card {
   // Публичный метод для удаления элемента
   setDeleteElementButton() {
     this._handleDeleteIconClick(this._id);
-    // this._element.remove();
-    // this._element = null;
   }
+  removeCard() {
+    this._element.remove();
+    this._element = null;
+  }
+
   //публичный метод, добавляющий количество лайков из сервера в разметку
   initialLikeCount() {
     this._element.querySelector('.element__like-count').textContent = this._likes.length;
