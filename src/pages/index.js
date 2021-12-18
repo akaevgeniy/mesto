@@ -45,15 +45,16 @@ validatorAvatarForm.enableValidation();
 const parseError = (err) => {
   console.log(err);
 };
+//Создаем экземпляр попапа с картинкой и активируем листенеры
+const imagePopop = new PopupWithImage(imageFormSelector);
+imagePopop.setEventListeners();
 //функция для создания экземпляра  карточки, принимает все необходимые колбэки
 const createCard = function (data) {
   const card = new Card(
     {
       data,
       handleCardClick: (imageInfo) => {
-        const popup = new PopupWithImage(imageFormSelector);
-        popup.setEventListeners();
-        popup.open(imageInfo);
+        imagePopop.open(imageInfo);
       },
       handleLikeClick: (confirm) => {
         if (confirm) {
