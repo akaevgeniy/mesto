@@ -26,3 +26,5 @@ export const confirmPopupSelector = '.popup_form_confirm';
 export const avatarPopupSelector = '.popup_form_avatar-update';
 export const profileAvatar = document.querySelector('.profile__avatar');
 export const avatarForm = document.querySelector('.popup__form_avatar-update');
+export const preloadSave = { preload: 'Сохранение...', load: 'Сохранить' };
+export const preloadCreate = { preload: 'Создание...', load: 'Создать' };

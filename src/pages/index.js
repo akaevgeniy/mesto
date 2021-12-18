@@ -20,6 +20,8 @@ import {
   avatarUpdateActive,
   profileAvatar,
   avatarForm,
+  preloadSave,
+  preloadCreate,
 } from '../utils/constants.js';
 // импортируем класс для работы с Api
 import { api } from '../components/Api';
@@ -92,11 +94,11 @@ const createCard = function (data) {
   return card.generateCard();
 };
 //функция для изменения текста при прелоад
-function renderLoading(isLoading, popupSelector) {
+function renderLoading(isLoading, popupSelector, { preload, load }) {
   if (isLoading) {
-    document.querySelector(popupSelector).querySelector('.popup__submit').value = 'Сохранение...';
+    document.querySelector(popupSelector).querySelector('.popup__submit').value = preload;
   } else if (!isLoading) {
-    document.querySelector(popupSelector).querySelector('.popup__submit').value = 'Сохранить';
+    document.querySelector(popupSelector).querySelector('.popup__submit').value = load;
   }
 }
 //Загружаем информацию о пользователе с сервера
@@ -132,7 +134,7 @@ api
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
 const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
-  renderLoading(true, editPopupSelector);
+  renderLoading(true, editPopupSelector, preloadSave);
   api
     .updateUserProfile({ name: inputs.popup__input_is_name, about: inputs.popup__input_is_about })
     .then((result) => {
@@ -140,14 +142,14 @@ const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      renderLoading(false, editPopupSelector);
+      renderLoading(false, editPopupSelector, preloadSave);
     });
 });
 //вызываем метод, вешающий слушатели событий формы
 editPopupForm.setEventListeners();
 //создаем экземпляр класса формы добавления новой карточки
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
-  renderLoading(true, addPopupSelector);
+  renderLoading(true, addPopupSelector, preloadCreate);
   api
     .addNewCard({ name: inputs.popup__input_is_add_name, link: inputs.popup__input_is_add_link })
     .then((result) => {
@@ -165,13 +167,13 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      renderLoading(false, addPopupSelector);
+      renderLoading(false, addPopupSelector, preloadCreate);
     });
 });
 addPopupForm.setEventListeners();
 //создаем экземпляр класса формы изменения аватара
 const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
-  renderLoading(true, avatarPopupSelector);
+  renderLoading(true, avatarPopupSelector, preloadSave);
   api
     .updateAvatar(input.popup__input_is_avatar_link)
     .then((result) => {
@@ -179,7 +181,7 @@ const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      renderLoading(false, avatarPopupSelector);
+      renderLoading(false, avatarPopupSelector, preloadSave);
     });
 });
 avatarPopupForm.setEventListeners();
