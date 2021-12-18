@@ -10,6 +10,9 @@ export class Card {
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
     this._handleDeleteIconClick = handleDeleteIconClick;
+    this._likeClick = () => {
+      this._handleLikeClick(this._element.querySelector('.element__like').classList.contains('element__like_active'));
+    };
   }
   //Приватный метод, возвращающий новый узел с данными
   _getTemplate() {
@@ -29,11 +32,6 @@ export class Card {
 
     return this._element;
   }
-  // Публичный метод для установки лайка
-  setLikeButton() {
-    this._handleLikeClick(this._id);
-    /* this._element.querySelector('.element__like').classList.toggle('element__like_active');*/
-  }
   // Публичный метод для удаления элемента
   setDeleteElementButton() {
     this._handleDeleteIconClick(this._id);
@@ -42,20 +40,19 @@ export class Card {
     this._element.remove();
     this._element = null;
   }
-  /*setLike() {
-    this._element.querySelector('.element__like').classList.add('element__like_active');
-  }*/
+  setLikeButton() {
+    this._element.querySelector('.element__like').classList.toggle('element__like_active');
+  }
   //публичный метод, добавляющий количество лайков из сервера в разметку
   initialLikeCount() {
     this._element.querySelector('.element__like-count').textContent = this._likes.length;
+  }
+  likeStatus() {
     this._likes.forEach((element) => {
       if (Object.values(element).includes('a836f126de8651dc281b558d')) {
         this._element.querySelector('.element__like').classList.add('element__like_active');
       }
     });
-    /*if (Object.values(this._likes).includes('a836f126de8651dc281b558d')) {
-      this._element.querySelector('.element__like').classList.add('element__like_active');
-    }*/
   }
   _deleteButtonHidden() {
     if (this._owner._id != 'a836f126de8651dc281b558d') {
@@ -74,7 +71,7 @@ export class Card {
     });
     // Вешаем функцию на событие нажатия по кнопке лайка
     elementLikeButton.addEventListener('click', () => {
-      this.setLikeButton();
+      this._likeClick();
     });
     // Вешаем функцию на событие нажатия по кнопке удаления карточки
     deleteElementButton.addEventListener('click', () => {
@@ -82,6 +79,7 @@ export class Card {
     });
     //отображаем количество лайков
     this.initialLikeCount();
+    this.likeStatus();
     this._deleteButtonHidden();
   }
 }

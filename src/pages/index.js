@@ -23,25 +23,16 @@ import {
 } from '../utils/constants.js';
 // импортируем класс для работы с Api
 import { api } from '../components/Api';
-//Загружаем информацию о пользователе с сервера
-api
-  .getUserProfile()
-  .then((result) => {
-    profileAvatar.src = result.avatar;
-    document.querySelector(namePageSelector).textContent = result.name;
-    document.querySelector(aboutPageSelector).textContent = result.about;
-  })
-  .catch((err) => console.log(err));
 //импортируем класс FormValidator
 import { FormValidator } from '../components/FormValidator.js';
-//создается отдельный экземпляр класса FormValidator для каждой формы
-//импортируем класс Card
+//импортируем классы Card и т.д.
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithSubmit } from '../components/PopupWithSubmit.js';
+//создается отдельный экземпляр класса FormValidator для каждой формы
 const validatorAddForm = new FormValidator(settingsObject, addForm);
 const validatorEditForm = new FormValidator(settingsObject, editForm);
 const validatorAvatarForm = new FormValidator(settingsObject, avatarForm);
@@ -58,8 +49,25 @@ const createCard = function (data) {
         popup.setEventListeners();
         popup.open();
       },
-      handleLikeClick: (id) => {
-        /* .catch((err) => console.log(err));*/
+      handleLikeClick: (confirm) => {
+        if (confirm) {
+          api
+            .deleteLike(data._id)
+            .then((result) => {
+              console.log(result.likes);
+              card.setLikeButton();
+            })
+            .catch((err) => console.log(err));
+        } else if (!confirm) {
+          api
+            .setLike(data._id)
+            .then((result) => {
+              console.log(result);
+              card.setLikeButton();
+              card.initialLikeCount();
+            })
+            .catch((err) => console.log(err));
+        }
       },
       handleDeleteIconClick: (id) => {
         const popup = new PopupWithSubmit(
@@ -91,6 +99,15 @@ function renderLoading(isLoading, popupSelector) {
     document.querySelector(popupSelector).querySelector('.popup__submit').value = 'Сохранить';
   }
 }
+//Загружаем информацию о пользователе с сервера
+api
+  .getUserProfile()
+  .then((result) => {
+    profileAvatar.src = result.avatar;
+    document.querySelector(namePageSelector).textContent = result.name;
+    document.querySelector(aboutPageSelector).textContent = result.about;
+  })
+  .catch((err) => console.log(err));
 //Создаем экземпляры Card при помощи класса Section
 api
   .getInitialCards()
@@ -111,7 +128,6 @@ api
   .catch((err) => {
     console.log(err); // выведем ошибку в консоль
   });
-
 // создается экземпляр класса с информацией о пользователе
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
@@ -147,8 +163,6 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
       //рендерим карточки в контейнер
       cardList.renderItems();
     })
-    //  cardList.addItem(createCard({ name: result.name, link: result.link }));
-
     .catch((err) => console.log(err))
     .finally(() => {
       renderLoading(false, addPopupSelector);
@@ -169,7 +183,6 @@ const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
     });
 });
 avatarPopupForm.setEventListeners();
-// const confPopupForm = new PopupWithForm(confirmPopupSelector);
 // Вешаем слушатели событий для открытия попапов с формами
 editButtonActive.addEventListener('click', () => {
   nameInput.value = user.getUserInfo().userName;
