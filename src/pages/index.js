@@ -41,7 +41,11 @@ const validatorAvatarForm = new FormValidator(settingsObject, avatarForm);
 validatorAddForm.enableValidation();
 validatorEditForm.enableValidation();
 validatorAvatarForm.enableValidation();
-//функция для создания экземпляра  карточки
+//проверка для catch
+const parseError = (err) => {
+  console.log(err);
+};
+//функция для создания экземпляра  карточки, принимает все необходимые колбэки
 const createCard = function (data) {
   const card = new Card(
     {
@@ -56,19 +60,18 @@ const createCard = function (data) {
           api
             .deleteLike(data._id)
             .then((result) => {
-              console.log(result.likes);
               card.setLikeButton();
+              card.updateLikeCount(result.likes.length);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => parseError(err));
         } else if (!confirm) {
           api
             .setLike(data._id)
             .then((result) => {
-              console.log(result);
               card.setLikeButton();
-              card.initialLikeCount();
+              card.updateLikeCount(result.likes.length);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => parseError(err));
         }
       },
       handleDeleteIconClick: (id) => {
@@ -81,7 +84,7 @@ const createCard = function (data) {
                 console.log(result);
                 card.removeCard();
               })
-              .catch((err) => console.log(err));
+              .catch((err) => parseError(err));
           },
           id
         );
@@ -101,7 +104,7 @@ function renderLoading(isLoading, popupSelector, { preload, load }) {
     document.querySelector(popupSelector).querySelector('.popup__submit').value = load;
   }
 }
-//Загружаем информацию о пользователе с сервера
+//Загружаем информацию о пользователе с сервера, вызываем запросы с Api
 api
   .getUserProfile()
   .then((result) => {
@@ -109,12 +112,11 @@ api
     document.querySelector(namePageSelector).textContent = result.name;
     document.querySelector(aboutPageSelector).textContent = result.about;
   })
-  .catch((err) => console.log(err));
-//Создаем экземпляры Card при помощи класса Section
+  .catch((err) => parseError(err));
+//Создаем экземпляры Card при помощи класса Section, вызываем запросы с Api
 api
   .getInitialCards()
   .then((result) => {
-    console.log(result);
     const cardList = new Section(
       {
         items: result.reverse(),
@@ -127,9 +129,7 @@ api
     //рендерим карточки в контейнер
     cardList.renderItems();
   })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
+  .catch((err) => parseError(err)); // выведем ошибку в консоль
 // создается экземпляр класса с информацией о пользователе
 const user = new UserInfo({ nameSelector: namePageSelector, aboutSelector: aboutPageSelector });
 //создаем экземпляр класса формы редактирования данных
@@ -140,14 +140,14 @@ const editPopupForm = new PopupWithForm(editPopupSelector, (inputs) => {
     .then((result) => {
       user.setUserInfo({ name: result.name, about: result.about });
     })
-    .catch((err) => console.log(err))
+    .catch((err) => parseError(err))
     .finally(() => {
       renderLoading(false, editPopupSelector, preloadSave);
     });
 });
 //вызываем метод, вешающий слушатели событий формы
 editPopupForm.setEventListeners();
-//создаем экземпляр класса формы добавления новой карточки
+//создаем экземпляр класса формы добавления новой карточки, используем запрос addNewCard с Апи
 const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
   renderLoading(true, addPopupSelector, preloadCreate);
   api
@@ -165,7 +165,7 @@ const addPopupForm = new PopupWithForm(addPopupSelector, (inputs) => {
       //рендерим карточки в контейнер
       cardList.renderItems();
     })
-    .catch((err) => console.log(err))
+    .catch((err) => parseError(err))
     .finally(() => {
       renderLoading(false, addPopupSelector, preloadCreate);
     });
@@ -179,7 +179,7 @@ const avatarPopupForm = new PopupWithForm(avatarPopupSelector, (input) => {
     .then((result) => {
       profileAvatar.src = result.avatar;
     })
-    .catch((err) => console.log(err))
+    .catch((err) => parseError(err))
     .finally(() => {
       renderLoading(false, avatarPopupSelector, preloadSave);
     });

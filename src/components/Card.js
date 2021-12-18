@@ -36,10 +36,12 @@ export class Card {
   setDeleteElementButton() {
     this._handleDeleteIconClick(this._id);
   }
+  //Публичный метод для удаления элемента из разметки
   removeCard() {
     this._element.remove();
     this._element = null;
   }
+  //метод для изменения значка лайка в разметке
   setLikeButton() {
     this._element.querySelector('.element__like').classList.toggle('element__like_active');
   }
@@ -47,6 +49,11 @@ export class Card {
   initialLikeCount() {
     this._element.querySelector('.element__like-count').textContent = this._likes.length;
   }
+  //метод для динамического изменения количества лайков
+  updateLikeCount(count) {
+    this._element.querySelector('.element__like-count').textContent = count;
+  }
+  //если лайк выставлен пользователем, то устанавливаем значок лайка на активный
   likeStatus() {
     this._likes.forEach((element) => {
       if (Object.values(element).includes('a836f126de8651dc281b558d')) {
@@ -54,6 +61,7 @@ export class Card {
       }
     });
   }
+  //приватный метод, если нет доступа, то скрываем кнопку удаления карточки
   _deleteButtonHidden() {
     if (this._owner._id != 'a836f126de8651dc281b558d') {
       this._element.querySelector('.element__delete').classList.add('element__delete_is-hidden');
@@ -77,7 +85,7 @@ export class Card {
     deleteElementButton.addEventListener('click', () => {
       this.setDeleteElementButton();
     });
-    //отображаем количество лайков
+    //отображаем количество лайков и скрываем/показываем необходимые кнопки-иконки
     this.initialLikeCount();
     this.likeStatus();
     this._deleteButtonHidden();
